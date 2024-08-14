@@ -9,7 +9,7 @@
                 <div class="pending-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <h3>Pending Gigs</h3>
+                <h3>Pending Gig</h3>
             </div>
         </div>
         <div class="col-md-4 col-sm-6 col-12">
