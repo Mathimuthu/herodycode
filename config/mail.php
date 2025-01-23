@@ -4,113 +4,121 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Mailer
+    | Mail Driver
     |--------------------------------------------------------------------------
     |
-    | This option controls the default mailer that is used to send all email
-    | messages unless another mailer is explicitly specified when sending
-    | the message. All additional mailers can be configured within the
-    | "mailers" array. Examples of each type of mailer are provided.
+    | Laravel supports various drivers for email delivery, such as SMTP,
+    | Sendmail, Mailgun, SES, and others. Here, we configure it for SMTP.
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'driver' => env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
-    | Mailer Configurations
+    | SMTP Host Address
     |--------------------------------------------------------------------------
     |
-    | Here you may configure all of the mailers used by your application plus
-    | their respective settings. Several examples have been configured for
-    | you and you are free to add your own as your application requires.
-    |
-    | Laravel supports a variety of mail "transport" drivers that can be used
-    | when delivering an email. You may specify which one you're using for
-    | your mailers below. You may also add additional mailers if needed.
-    |
-    | Supported: "smtp", "sendmail", "mailgun", "ses", "ses-v2",
-    |            "postmark", "resend", "log", "array",
-    |            "failover", "roundrobin"
+    | This is the SMTP server used for sending emails. Update this to match
+    | the server provided by your email service (e.g., InstaAlerts).
     |
     */
 
-    'mailers' => [
+    'host' => env('MAIL_HOST', 'smtp.instaalerts.zone'),
 
-        'smtp' => [
-            'transport' => 'smtp',
-            'url' => env('MAIL_URL'),
-            'host' => env('MAIL_HOST', '127.0.0.1'),
-            'port' => env('MAIL_PORT', 2525),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
-        ],
+    /*
+    |--------------------------------------------------------------------------
+    | SMTP Host Port
+    |--------------------------------------------------------------------------
+    |
+    | This is the port for the SMTP server. Common ports are 587 for TLS
+    | or 465 for SSL. InstaAlerts recommends port 587 with no encryption.
+    |
+    */
 
-        'ses' => [
-            'transport' => 'ses',
-        ],
-
-        'postmark' => [
-            'transport' => 'postmark',
-            // 'message_stream_id' => env('POSTMARK_MESSAGE_STREAM_ID'),
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
-        ],
-
-        'resend' => [
-            'transport' => 'resend',
-        ],
-
-        'sendmail' => [
-            'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
-        ],
-
-        'log' => [
-            'transport' => 'log',
-            'channel' => env('MAIL_LOG_CHANNEL'),
-        ],
-
-        'array' => [
-            'transport' => 'array',
-        ],
-
-        'failover' => [
-            'transport' => 'failover',
-            'mailers' => [
-                'smtp',
-                'log',
-            ],
-        ],
-
-        'roundrobin' => [
-            'transport' => 'roundrobin',
-            'mailers' => [
-                'ses',
-                'postmark',
-            ],
-        ],
-
-    ],
+    'port' => env('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
     |--------------------------------------------------------------------------
     |
-    | You may wish for all emails sent by your application to be sent from
-    | the same address. Here you may specify a name and address that is
-    | used globally for all emails that are sent by your application.
+    | Define a global email address and name to use for all outgoing emails.
+    | These values can be customized per email using the `from` method.
     |
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'alerts@herody.in'),
+        'name' => env('MAIL_FROM_NAME', 'Herody On-Boarding'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | E-Mail Encryption Protocol
+    |--------------------------------------------------------------------------
+    |
+    | Specify the encryption protocol for email delivery. If encryption is not
+    | required, set this to `null`. Otherwise, use `tls` or `ssl` based on your setup.
+    |
+    */
+
+    'encryption' => env('MAIL_ENCRYPTION', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | SMTP Server Username
+    |--------------------------------------------------------------------------
+    |
+    | If your SMTP server requires authentication, set your username here.
+    | It is used along with the password for authentication during connection.
+    |
+    */
+
+    'username' => env('MAIL_USERNAME', 'herody_email'),
+
+    'password' => env('MAIL_PASSWORD', 'anabeanaherodY@1'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sendmail System Path
+    |--------------------------------------------------------------------------
+    |
+    | If using the "sendmail" driver, specify the system path to the Sendmail
+    | binary here. This is not relevant for SMTP-based email delivery.
+    |
+    */
+
+    'sendmail' => '/usr/sbin/sendmail -bs',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Markdown Mail Settings
+    |--------------------------------------------------------------------------
+    |
+    | When rendering email messages using Markdown, these paths and themes
+    | control the design. Customize these as per your application's needs.
+    |
+    */
+
+    'markdown' => [
+        'theme' => 'default',
+
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log Channel
+    |--------------------------------------------------------------------------
+    |
+    | If using the "log" driver, you can define the logging channel to keep
+    | email logs separate from other application logs for better organization.
+    |
+    */
+
+    'log_channel' => env('MAIL_LOG_CHANNEL'),
 
 ];

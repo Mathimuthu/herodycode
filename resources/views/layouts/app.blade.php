@@ -1,214 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+  
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard')</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .sidebar {
-            height: 100%;
-            width: 250px;
-            background-color: #343a40;
-            color: #fff;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow-y: auto;
-        }
-        .sidebar .nav-link {
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-        }
-        .sidebar .nav-link:hover {
-            color: #ced4da;
-        }
-        .sidebar .submenu {
-            display: none;
-            padding-left: 20px;
-        }
-        .sidebar .submenu .nav-link {
-            padding-left: 20px;
-        }
-        .fa-chevron-right {
-            transition: transform 0.3s ease;
-        }
-        .fa-chevron-down {
-            transform: rotate(90deg);
-        }
-        .topbar {
-            height: 60px;
-            background-color: #007bff;
-            color: #fff;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            top: 0;
-            left: 250px;
-            right: 0;
-        }
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            margin-top: 60px;
-            overflow-y: auto;
-            height: calc(100vh - 60px);
-        }
-        .icon-container {
-            text-align: center;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin: 10px 0;
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        .icon-container i {
-            font-size: 3rem;
-            transition: color 0.3s ease;
-        }
-
-        .icon-container:hover {
-            box-shadow: 10px 10px 15px #bbff0080;
-            transform: scale(1.05);
-        }
-
-        .icon-container.pending-gigs i {
-            color: #ffc107; /* Yellow for pending gigs */
-        }
-
-        .icon-container.in-process-gigs i {
-            color: #17a2b8; /* Teal for in-process gigs */
-        }
-
-        .icon-container.completed-gigs i {
-            color: #28a745; /* Green for completed gigs */
-        }
-
-        .icon-container.all-members i {
-            color: #dc3545; /* Red for all members */
-        }
-
-        .icon-container.withdraw-request i {
-            color: #6c757d; /* Gray for withdraw request */
-        }
-
-        .icon-container.campaigns i {
-            color: #fd7e14; /* Orange for campaigns */
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                box-shadow: none;
-            }
-            .topbar {
-                left: 0;
-                right: 0;
-            }
-            .main-content {
-                margin: 0;
-                padding-top: 60px;
-                margin-top: 0;
-                height: auto;
-            }
-        }
-    </style>
-    @stack('styles')
-</head>
-<body>
-    <div class="sidebar">
-        <a href="{{ route('dashbord') }}"><h2>Dashboard</h2></a>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('gigs.index') }}" id="gigs-toggle">
-                    <span><i class="fas fa-home"></i> Gigs</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <ul class="nav flex-column submenu" id="gigs-submenu">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('gigs.create') }}"><i class="fas fa-plus"></i> Add Gig</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('gigs.index') }}"><i class="fas fa-edit"></i> Manage Gigs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('admin.gigs.pendings') }}"><i class="fas fa-edit"></i> Pending Gigs</a>
-                    </li>
-                   
-                    <!-- Export Button -->
-                        
-
-                </ul>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link" href="" id="internships-toggle">
-                    <span><i class="fas fa-home"></i> Internships</span>
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-                <ul class="nav flex-column submenu" id="internships-submenu">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('internships.index') }}"><i class="fas fa-edit"></i> Manage</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pending-internships.index') }}"><i class="fas fa-edit"></i> Pending</a>
-                    </li>
-                    
-                    
-                </ul>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('employees.index') }}">
-                        <span><i class="fas fa-users"></i> Employees</span>
-                    </a>
-                </li>
-            </li>
-        </ul>
-    </div>
-
-    <div class="topbar">
-        <h3>ADMIN</h3>
-    </div>
-
-    <main class="main-content container-fluid">
-        @yield('content')
-    </main>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    @stack('scripts')
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title')</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{asset('assets/main/images/Viti.png')}}">
+    <link rel="stylesheet" href="{{asset('assets/viti_new/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/viti_new/css/style.css')}}">
+    <!-- Responsive stylesheet -->
+    <link rel="stylesheet" href="{{asset('assets/viti_new/css/responsive.css')}}">
     <script>
-        $(document).ready(function(){
-            $('#gigs-toggle').on('click', function(e){
-                e.preventDefault();
-                var submenu = $('#gigs-submenu');
-                submenu.slideToggle();
-                $(this).find('.fa-chevron-right').toggleClass('fa-chevron-down');
-            });
-
-            $('#internships-toggle').on('click', function(e){
-                e.preventDefault();
-                var submenu = $('#internships-submenu');
-                submenu.slideToggle();
-                $(this).find('.fa-chevron-right').toggleClass('fa-chevron-down');
-            });
-        });
+        window.__INITIAL_STATE__ = "{{url('/')}}";
     </script>
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/viti2/css/style.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/viti2/css/responsive.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/viti2/css/chosen.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/viti2/css/colors/colors.css')}}" />
+    <!-- fontawesome css -->
+    <script src="https://kit.fontawesome.com/9bfb9a77dd.js" crossorigin="anonymous"></script>
+    <link href="{{asset('assets/toastr/toastr.min.css')}}" rel="stylesheet"/>
+
+    @if(Auth::guard('employer')->check() or Auth::guard('manager')->check() or Auth::check())
+    
+    
+    <link rel="stylesheet" href="{{asset('assets/student_new/vendor/nucleo/css/nucleo.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('assets/student_new/css/argon.css?v=1.1.0')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('assets/user/css/mnav.css')}}" type="text/css">
+    @endif
+    @stack('styles')
+    @yield('heads')
+    <style>
+      body{
+        background: #fff;
+      }
+      .main-c{
+        margin-top: 6rem;
+      }
+    </style>
+  </head>
+  <body>
+    @include('includes.header')
+    <div class="main-c">
+    @yield('content')
+    
+    </div>
+    @include('includes.footer')
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!-- Wrapper End -->
+<script type="text/javascript" src="{{asset('assets/viti_new/js/jquery-3.3.1.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/jquery-migrate-3.0.0.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/popper.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/jquery.mmenu.all.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/ace-responsive-menu.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/bootstrap-select.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/snackbar.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/simplebar.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/tagsinput.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/parallax.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/scrollto.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/jquery-scrolltofixed-min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/jquery.counterup.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/wow.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/progressbar.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/slider.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/timepicker.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/viti_new/js/wow.min.js')}}"></script>
+<!-- Custom script for all pages --> 
+<script type="text/javascript" src="{{asset('assets/viti_new/js/script.js')}}"></script>
+
+<script src="{{asset('assets/viti2/js/modernizr.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/viti2/js/script.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/user/js/mnav.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/toastr/toastr.min.js')}}"></script>
+
+  <script>
+  @if(Session()->has('success'))
+
+  toastr.success("{{Session('success')}}")
+  @endif
+
+  @if(Session()->has('warning'))
+
+  toastr.warning("{{Session('warning')}}")
+  @endif
+
+  @if(count($errors)>0)
+      @foreach($errors->all() as $error)
+          toastr.error("{{$error}}")
+      @endforeach
+  @endif
+    </script>
+    @stack('scripts')
+  @yield('scripts')
 </body>
 </html>
