@@ -9,7 +9,7 @@
 				<div class="col-sm-12 col-lg-8 col-xl-9">
 					<div class="row">
 						<div class="col-lg-12">
-							<h4 class="mb30">Dashboard</h4>
+							<h4 class="mb30">Dashboards</h4>
 						</div>
 						<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
 							<div class="ff_one">
