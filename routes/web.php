@@ -291,7 +291,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Non-authenticated Employer
 Route::get('for-businesses',[EmployerHomeController::class,'to_register'])->name('employer.for-businesses');
-// Route::get('for-businesses', [EmployerHomeController::class, 'register'])->name('employer.register');
+ Route::post('for-businesses', [EmployerHomeController::class, 'register'])->name('employer.register');
 Route::get('business/login', [EmployerHomeController::class, 'to_login'])->name('employer.login');
 Route::get('employer/verify-email', [EmployerHomeController::class, 'resendemail'])->name('employer.verify.email')->middleware(['employerAuth']);
 Route::post('employer/verify-email', [EmployerHomeController::class, 'brand'])->name('employer.verify.emailr')->middleware(['employerAuth']);
