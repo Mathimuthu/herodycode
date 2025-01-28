@@ -173,6 +173,7 @@ Route::post('project/undo-mobile', [AdminJobController::class, 'undoMobile'])->n
 Route::get('project/internshipstatus/{id}', [AdminJobController::class, 'projectStatus'])->name('job.campaign_status');
 Route::get('project/toggle-visibility/{id}', [AdminJobController::class, 'toggleVisibility'])->name('job.toggle_visibility');
 
+Route::get('/manage-users', [ManagerHomeController::class, 'manageUsers'])->name('manage.users');
 
 
     // Member Manage
