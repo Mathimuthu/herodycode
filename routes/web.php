@@ -200,6 +200,8 @@ Route::get('withdraw', [WithdrawController::class, 'index'])->name('withdraw.ind
 Route::post('withdraw/store', [WithdrawController::class, 'store'])->name('withdraw.store');
 Route::put('withdraw/update/{id}', [WithdrawController::class, 'update'])->name('withdraw.update');
 Route::delete('withdraw/destroy', [WithdrawController::class, 'destroy'])->name('withdraw.destroy');
+Route::post('process-payout/{id}', [WithdrawController::class, 'processPayout'])->name('process-payout');
+
 
 Route::get('withdraw-filter', [DashboardController::class, 'ShowWithdrawLog'])->name('withdraw.filterupi');
 Route::get('withdraw-request', [DashboardController::class, 'ShowWithdrawRequest'])->name('show.withdraw.request');
