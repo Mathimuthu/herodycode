@@ -151,13 +151,18 @@ Route::get('gig-proofs/{jid}/view/{uid}/reject', [AdminCampaignController::class
 Route::post('gig/make-mobile', [AdminCampaignController::class, 'makeMobile'])->name('campaign.make-mobile');
 Route::post('gig/undo-mobile', [AdminCampaignController::class, 'undoMobile'])->name('campaign.undo-mobile');
 Route::get('gig/details/{id}', [AdminCampaignController::class, 'details'])->name('campaign.gig-details');
-Route::get('gig/gigstatus/{id}', [AdminCampaignController::class, 'statusCampaign'])->name('campaign.status');
+Route::get('gig/gigstatus/{id}', [AdminCampaignController::class, 'statusCampaign'])
+->name('campaign.status');
 Route::get('gig/showstatus/{id}', [AdminCampaignController::class, 'toggleShowStatus'])->name('campaign.showstatus');
 Route::post('gig/toggle-status/{id}', [AdminCampaignController::class, 'toggleViewStatus'])->name('campaign.toggleStatus');
 Route::post('gig/set-priority', [AdminCampaignController::class, 'setPriority'])->name('campaign.set-priority');
 Route::get('gig/{id}/download-backup-proofs', [AdminCampaignController::class, 'export_excel_for_backup'])->name('campaign.backup_accepted_proof');
 Route::get('gig/{id}/download-backup-rejectproofs', [AdminCampaignController::class, 'export_reject_excel_for_backup'])->name('campaign.backup_rejected_proof');
 Route::post('tasks/update-top', [AdminCampaignController::class, 'updateTopTasks'])->name('tasks.updateTop');
+Route::post('/gigs/{id}/toggle-show-first', [AdminCampaignController::class, 'toggleShowFirst'])->name('campaign.showfirst');
+Route::post('/gigs/{id}/toggle-show-second', [AdminCampaignController::class, 'toggleShowSecond'])->name('campaign.showsecond');
+
+
 
 
     //campaign category
@@ -225,6 +230,7 @@ Route::get('gig/export/apps/{id}', [AdminCampaignController::class, 'export_apps
 Route::get('campaign/export', [MissionController::class, 'export_excel'])->name('campaign.export');
 Route::get('campaign/export/apps/{id}', [MissionController::class, 'export_apps'])->name('campaign.apps.export');
 Route::get('withdraw/export', [WithdrawController::class, 'export_excel'])->name('withdraw.export');
+Route::get('gigapp/export-status', [MemberManageController::class, 'exportGigAppStatus'])->name('gigapp.export.status');
 
    // Employers
 Route::get('employers', [EmployerController::class, 'index'])->name('employers');
