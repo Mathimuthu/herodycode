@@ -107,7 +107,7 @@
                             </div>
 
                             <div class="d-flex justify-content-center my-4">
-                                {{ $jas->links() }}
+                                {{-- {{ $jas->links() }} --}}
                             </div>
 
                             <!-- Action Buttons for All -->

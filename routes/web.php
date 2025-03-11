@@ -128,7 +128,8 @@ Route::post('logout', [HomeController::class, 'logout'])->name('logout');
     Route::get('campaigns/projectstatus/{id}', [MissionController::class, 'projectStatus'])->name('mission.project_status');
     Route::get('edit-campaign/{id}', [MissionController::class, 'EditProject'])->name('mission.edit_project');
     Route::post('edit-campaign/{id}', [MissionController::class, 'UpdateProject'])->name('mission.update');
-    
+    Route::post('campaigns/projectstatus/{id}', [MissionController::class, 'projectStatus'])->name('mission.projecct_status');
+
     //Gig
     Route::get('gig',[AdminCampaignController::class,'ShowAllCampaign'])->name('campaign.all');
     Route::get('pending-gig', 'CampaignController@pendings')->name('campaign.pendings');

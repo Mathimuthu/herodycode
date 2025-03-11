@@ -64,7 +64,7 @@
 
                     </tbody>
                 </table>
-                {{$campaigns->links()}}
+                {{-- {{$campaigns->links()}} --}}
             </div>
         </div>
     </div>
