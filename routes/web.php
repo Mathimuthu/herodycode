@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployerController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\HelpLinkController;
 use App\Http\Controllers\Admin\JobApplicantController;
 use App\Http\Controllers\Admin\JobController as AdminJobController;
 use App\Http\Controllers\Employer\JobController as EmployerJobController;
@@ -86,6 +87,9 @@ Route::post('admin/manager/delete',[Manager::class, 'delete'])->name('admin.mana
 
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+
+        Route::get('help',[HelpLinkController::class,'index'])->name('help.index');
+        Route::post('help',[HelpLinkController::class,'store'])->name('help.store');
 
       // Applicants Routes
         Route::get('applicants', [JobApplicantController::class, 'index'])->name('applicants.index');

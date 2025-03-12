@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\UserRewardController;
 // use App\Http\Controllers\API\UserRewardController as APIUserRewardController;
 use App\Http\Controllers\Api\WalletTransactionController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\HelpLinkController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -105,6 +107,9 @@ Route::namespace('API')->group(function(){
 // Create a new reward record
 Route::post('test','TrueCallerController@login');
 Route::get("config", "ConfigurationController@fetchConfiguration");
+
+Route::get('/help-links', [HelpLinkController::class, 'apiIndex']);
+
 
 // Route::get('acc_details',"RazorpayController@create_contact");
 // Route::post('acc_details',"RazorpayController@add_contact");
