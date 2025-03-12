@@ -4,6 +4,38 @@
 
 @section('body')
 
+<style>
+    .pagination .page-link {
+        color: #007bff;
+        border: 1px solid #dee2e6;
+        padding: 8px 12px;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        background-color: #f8f9fa;
+    }
+
+    .table-responsive {
+        border-collapse: separate;
+        /* Ensures spacing works */
+        border-spacing: 10px;
+        /* Adjust column gap */
+    }
+
+    .table td,
+    .table th {
+        padding: 12px;
+        /* Adjusts cell padding */
+    }
+</style>
     <div class="container-fluid">
         <h2 class="mb-4">Withdraw Log</h2>
         
@@ -21,7 +53,62 @@
 
         <div class="card mb-4">
             <div class="card-header">
-                {{$withdrawRequest->links()}}
+                {{-- {{$withdrawRequest->links()}} --}}
+                 <!-- Pagination Links -->
+             <div class="d-flex justify-content-left">
+                <nav>
+                    <ul class="pagination">
+                        {{-- Previous Page Link --}}
+                        @if ($withdrawRequest->onFirstPage())
+                            <li class="page-item disabled">
+                                <span class="page-link">«</span>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $withdrawRequest->previousPageUrl() }}" rel="prev">«</a>
+                            </li>
+                        @endif
+            
+                        {{-- First Page --}}
+                        @if ($withdrawRequest->currentPage() > 3)
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $withdrawRequest->url(1) }}">1</a>
+                            </li>
+                            @if ($withdrawRequest->currentPage() > 4)
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            @endif
+                        @endif
+            
+                        {{-- Page Range --}}
+                        @for ($page = max(1, $withdrawRequest->currentPage() - 2); $page <= min($withdrawRequest->lastPage(), $withdrawRequest->currentPage() + 2); $page++)
+                            <li class="page-item {{ $page == $withdrawRequest->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $withdrawRequest->url($page) }}">{{ $page }}</a>
+                            </li>
+                        @endfor
+            
+                        {{-- Last Page --}}
+                        @if ($withdrawRequest->currentPage() < $withdrawRequest->lastPage() - 2)
+                            @if ($withdrawRequest->currentPage() < $withdrawRequest->lastPage() - 3)
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            @endif
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $withdrawRequest->url($withdrawRequest->lastPage()) }}">{{ $withdrawRequest->lastPage() }}</a>
+                            </li>
+                        @endif
+            
+                        {{-- Next Page Link --}}
+                        @if ($withdrawRequest->hasMorePages())
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $withdrawRequest->nextPageUrl() }}" rel="next">»</a>
+                            </li>
+                        @else
+                            <li class="page-item disabled">
+                                <span class="page-link">»</span>
+                            </li>
+                        @endif
+                    </ul>
+                </nav>
+            </div>
             </div>
             
             <div class="card-body">

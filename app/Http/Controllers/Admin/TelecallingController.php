@@ -142,12 +142,15 @@ class TelecallingController extends Controller
         $request->session()->flash('success', "Project successfully deleted");
         return redirect()->back();
     }
-    public function applications($id){
-        $applications = TelecallingApp::where("tid",$id)->latest()->paginate(15);
-        return view("admin.telecalling.applications")->with([
-            "applications" => $applications,
-        ]);
+    public function applications($id) {
+        $applications = TelecallingApp::where("tid", $id)
+            ->with('user') // Assuming a relation exists in the model
+            ->latest()
+            ->paginate(15);
+    
+        return view("admin.telecalling.applications", compact("applications"));
     }
+    
     public function distribute(Request $request){
         $this->validate($request,[
             "id" => "required"

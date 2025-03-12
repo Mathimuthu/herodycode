@@ -93,6 +93,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
       // Applicants Routes
         Route::get('applicants', [JobApplicantController::class, 'index'])->name('applicants.index');
+        Route::post('applicants/{id}/mark-called', [JobApplicantController::class, 'markAsCalled'])->name('applicants.mark-called');
+
 
 // Bforms Routes
 Route::get('bforms', [HomeController::class, 'bformv'])->name('bforms');
