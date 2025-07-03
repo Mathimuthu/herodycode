@@ -50,7 +50,8 @@
     @include('admin.includes.sidebar')
 
 
-    <div class="content p-4" style="width: 100vw; height: 100vh; overflow: auto;">
+    <div class="content p-4">
+
         {{--toastr--}}
         <script>
             @if(Session()->has('success'))

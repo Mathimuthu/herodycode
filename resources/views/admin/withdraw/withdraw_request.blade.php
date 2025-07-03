@@ -67,22 +67,21 @@
                                         </a>
                                     @endif
                                 </td>
-                                <td>
-    <span class="{{ isset($duplicateEmails[optional($user)->email]) ? 'text-danger' : '' }}">
-        {{ optional($user)->email ?? 'N/A' }}
-        @if (isset($duplicateEmails[optional($user)->email]))
+                               <td>
+    <span class="{{ isset($duplicateEmails[$user->email]) ? 'text-danger' : '' }}">
+        {{ $user->email ?? 'N/A' }}
+        @if (isset($duplicateEmails[$user->email]))
             <small>(Duplicate with another user)</small>
         @endif
     </span>
     <br>
-    <span class="{{ isset($duplicatePhones[optional($user)->phone]) ? 'text-danger' : '' }}">
-        {{ optional($user)->phone ?? 'N/A' }}
-        @if (isset($duplicatePhones[optional($user)->phone]))
+    <span class="{{ isset($duplicatePhones[$user->phone]) ? 'text-danger' : '' }}">
+        {{ $user->phone ?? 'N/A' }}
+        @if (isset($duplicatePhones[$user->phone]))
             <small>(Duplicate with another user)</small>
         @endif
     </span>
 </td>
-
 
 <td class="{{ $isDuplicateWithDifferentUser ? 'text-danger' : '' }}">
             {{ $withdrawRequest->payment_details }}

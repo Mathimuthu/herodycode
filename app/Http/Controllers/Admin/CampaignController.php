@@ -54,23 +54,19 @@ class CampaignController extends Controller
         return view('admin.campaign.details',compact('gig'));
     }
     
-
+    // Active or Inactive 
     public function statusCampaign($id)
     {
         $gig = Gig::find($id);
     
-        if (!$gig) {
-            return back()->with('error', 'Gig not found');
+        if ($gig) {
+            // Toggle the gigstatus
+            $gig->gigstatus = !$gig->gigstatus;
+            $gig->save();
         }
     
-        // Toggle gigstatus and save
-        $gig->gigstatus = !$gig->gigstatus;
-        $gig->save();
-    
-        return back()->with('success', 'Status updated successfully!');
+        return back();
     }
-    
-    
     
     public function toggleShowStatus($id)
     {

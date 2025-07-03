@@ -126,77 +126,39 @@ public function ShowWithdrawRequest()
         return redirect()->back();
     }
 
-    // public function WithdrawReject(Request $request)
-    // {
-    //     //return amount of user account
-    //       $withdrawRequest = WithdrawRequest::find($request->id);
-
-    //       $return_balance = $withdrawRequest->payable_amount;
-
-    //       $user_balance = $withdrawRequest->user->balance;
-    //       $user_balance += $return_balance;
-
-    //       User::where('id', $withdrawRequest->user->id)->update(['balance' => $user_balance]);
-          
-    //       $tr = new Transition;
-    //       $tr->uid = $withdrawRequest->user->id;
-    //       $tr->reason = "Withdrawal Rejected";
-    //       $tr->transition = "+".$withdrawRequest->payable_amount;
-    //       $tr->save();
-
-
-
-    //     //change status
-    //     WithdrawRequest::where('id',$request->id)->update(['status' => 2]);
-
-    //     //Send mail to user
-    //     // $to = $withdrawRequest->user->email;
-    //     // $subject = 'Reject withdraw request';
-    //     // $message = 'Sorry Your withdraw request is rejected, Please try again later';
-
-    //     // $data = array('sub'=>$subject,'message'=>$message);
-    //     // Mail::to($to)->send(new GlobalMail($data));
-
-    //     //redirect
-    //     Session()->flash('success', 'Rejected!');
-    //     return redirect()->back();
-    // }
     public function WithdrawReject(Request $request)
-{
-    // Find the withdrawal request
-    $withdrawRequest = WithdrawRequest::find($request->id);
+    {
+        //return amount of user account
+          $withdrawRequest = WithdrawRequest::find($request->id);
 
-    if (!$withdrawRequest) {
-        return redirect()->back()->with('error', 'Withdrawal request not found.');
+          $return_balance = $withdrawRequest->payable_amount;
+
+          $user_balance = $withdrawRequest->user->balance;
+          $user_balance += $return_balance;
+
+          User::where('id', $withdrawRequest->user->id)->update(['balance' => $user_balance]);
+          
+          $tr = new Transition;
+          $tr->uid = $withdrawRequest->user->id;
+          $tr->reason = "Withdrawal Rejected";
+          $tr->transition = "+".$withdrawRequest->payable_amount;
+          $tr->save();
+
+
+
+        //change status
+        WithdrawRequest::where('id',$request->id)->update(['status' => 2]);
+
+        //Send mail to user
+        // $to = $withdrawRequest->user->email;
+        // $subject = 'Reject withdraw request';
+        // $message = 'Sorry Your withdraw request is rejected, Please try again later';
+
+        // $data = array('sub'=>$subject,'message'=>$message);
+        // Mail::to($to)->send(new GlobalMail($data));
+
+        //redirect
+        Session()->flash('success', 'Rejected!');
+        return redirect()->back();
     }
-
-    // Check if the user exists
-    $user = $withdrawRequest->user;
-
-    if (!$user) {
-        return redirect()->back()->with('error', 'User not found.');
-    }
-
-    // Return the amount to the user's account
-    $return_balance = $withdrawRequest->payable_amount;
-    $user->balance += $return_balance;
-    $user->save();
-
-    // Record the transaction
-    $tr = new Transition();
-    $tr->uid = $user->id;
-    $tr->reason = "Withdrawal Rejected";
-    $tr->transition = "+" . $return_balance;
-    $tr->save();
-
-    // Change status
-    $withdrawRequest->update(['status' => 2]);
-
-    // Send rejection email (commented out but you can enable it)
-    // Mail::to($user->email)->send(new GlobalMail(['sub' => 'Reject withdraw request', 'message' => 'Sorry, your withdraw request is rejected. Please try again later.']));
-
-    // Redirect with success message
-    return redirect()->back()->with('success', 'Withdrawal request rejected successfully!');
-}
-
 }

@@ -651,6 +651,7 @@ class DetailController extends Controller
         $data['gigs'] = [];
         $data['projects'] = [];
         $data['campaigns'] = [];
+        $data['campaign_rewards'] = [];
         $data['referred'] = $refs->count();
         if($radds->count()==0){
             $ra = 0;
@@ -662,6 +663,20 @@ class DetailController extends Controller
                 array_push($data['referrals'],$radd);
             }
         }
+     //For campaign_rewards
+$campaignRewards = Transition::where('uid', $request->id)
+    ->where('reason', 'LIKE', '%Campaign Adding Rewards%')
+    ->get();
+if ($campaignRewards->count() == 0) {
+    $cra = 0; // Changed from $ca to $cra
+} else {
+    $cra = 0; // Changed from $ca to $cra
+    foreach ($campaignRewards as $reward) {
+        $cra += $reward->addm; // Changed from $ca to $cra
+        array_push($data['campaign_rewards'], $reward);
+    }
+}
+
         // For gigs
         $gadds = Transition::where('uid',$request->id)->where('reason','LIKE','%Gig%')->get();
         if($gadds->count()==0){
@@ -699,29 +714,69 @@ class DetailController extends Controller
             }
         }
         // For Telecallings
-        
-        return response()->json(['response'=>['code'=>'SUCCESS','referralEarnings'=>$ra,'gigEarnings'=>$ga,'projectEarnings'=>$pa,'campaignEarnings'=>$ca,'referred'=>$refs->count(),'user_balance'=>$user->balance,'data'=>$data]], 200);
+        return response()->json(['response'=>['code'=>'SUCCESS','referralEarnings'=>$ra,'gigEarnings'=>$ga,'projectEarnings'=>$pa,'campaignEarnings'=>$ca,'campaignRewardEarnings'=>$cra,'referred'=>$refs->count(),'user_balance'=>$user->balance,'data'=>$data]], 200);
     }
+    // public function storeRef(Request $request){
+    //     $this->validate($request,[
+    //         'uid' => 'required',
+    //         'ref' => 'required'
+    //     ]);
+    //     $user = User::find($request->uid);
+    //     if($user->ref_by == NULL){
+    //         $refu = User::where('ref_code',$request->ref)->first();
+    //         if($refu == NULL){
+    //             return response()->json(['response'=>['code'=>'ERROR','message'=>'The referral code does not exist']], 401);
+    //         }
+    //         else{
+    //             $user->ref_by = $refu->id;
+    //             return response()->json(['response'=>['code'=>'SUCCESS']], 200);
+    //         }
+    //     }
+    //     else{
+    //         return response()->json(['response'=>['code'=>'ERROR','message'=>'The user is already referred by someone else']], 401);
+    //     }
+    // }
     public function storeRef(Request $request){
-        $this->validate($request,[
-            'uid' => 'required',
-            'ref' => 'required'
-        ]);
-        $user = User::find($request->uid);
-        if($user->ref_by == NULL){
-            $refu = User::where('ref_code',$request->ref)->first();
-            if($refu == NULL){
-                return response()->json(['response'=>['code'=>'ERROR','message'=>'The referral code does not exist']], 401);
-            }
-            else{
-                $user->ref_by = $refu->id;
-                return response()->json(['response'=>['code'=>'SUCCESS']], 200);
-            }
+    $this->validate($request, [
+        'uid' => 'required|exists:users,id',
+        'ref' => 'required'
+    ]);
+
+    $user = User::find($request->uid);
+
+    if ($user->ref_by === NULL) {
+        // Check if referral code exists
+        $refu = User::where('ref_code', $request->ref)->first();
+        
+        if ($refu === NULL) {
+            return response()->json([
+                'response' => [
+                    'code' => 'ERROR',
+                    'message' => 'The referral code does not exist'
+                ]
+            ], 401);
+        } else {
+            // Assign referral and save to database
+            $user->ref_by = $refu->id;
+            $user->save(); // Missing in your original code
+            
+            return response()->json([
+                'response' => [
+                    'code' => 'SUCCESS',
+                    'message' => 'Referral assigned successfully'
+                ]
+            ], 200);
         }
-        else{
-            return response()->json(['response'=>['code'=>'ERROR','message'=>'The user is already referred by someone else']], 401);
-        }
+    } else {
+        return response()->json([
+            'response' => [
+                'code' => 'ERROR',
+                'message' => 'The user is already referred by someone else'
+            ]
+        ], 401);
     }
+}
+
     
 //   public function updateReward(Request $request)
 //  {

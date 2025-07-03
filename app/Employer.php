@@ -20,5 +20,9 @@ class Employer extends Authenticatable
     {
         return $this->hasMany('App\Gig', 'user_id');
     }
+    public function questions()
+    {
+        return $this->hasMany('App\CamQuestion', 'employee_id');
+    }
     
 }

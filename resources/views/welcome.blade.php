@@ -158,6 +158,22 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
+.small-rect-btn {
+              /* ↓ reduced height 
+    font-size: 13px;             /* optional: smaller text */
+    border-radius: 4px;
+    background-color: #007bff;   /* your theme color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    line-height: 1.2;
+    transition: background-color 0.3s ease;
+}
+
+.small-rect-btn:hover {
+    background-color: #0056b3;
+}
+
 
 /* Links inside the dropdown */
 .dropdown-content a {
@@ -218,113 +234,202 @@
     </div>
     <!--====== End Preloader ======-->
     <!--====== Start Header ======-->
-    <header class="template-header absolute-header navbar-left sticky-header">
-        <div class="topbar">
-            <p >Let's make something great together.</p>
-        </div>
-        <div class="container">
-            <div class="header-inner">
-                <div class="header-left">
-                    <div class="site-logo">
-                        <a href="https://herody.in">
-                            <img width="75" height="75" src="{{asset('assets/digital/assets/img/logo.png')}}" alt="Business Form">
-                        </a>
-                    </div>
-                    <nav class="nav-menu d-none d-xl-block">
-                        <ul class="primary-menu">
-                           <li>
-                                <a class="active" href="https://herody.in">Home</a>
-                            </li>
-                            <li>
-                                <a  href="https://herody.in/gigworkers">Gigworkers</a>
-                            </li>
-                            <li>
-                                <a  href="https://herody.in/businesses">Businesses</a> 
-                            </li>
-                            <li>
-                                <a href="#about">About</a>
-                            </li>
-                             <li>
-                                <a href="https://herody.in/careers">Careers</a>
-                            </li>
-                            <li>
-                                <a href="#contact">Contact</a>  
-                            </li>
-                            <div class="dropdown">
-                              <button class="dropbtn">Policy</button>
-                              <div class="dropdown-content">
-                                <a href="https://herody.in/privacy-policy" target="_blank">Privacy</a>
-                                <a href="https://herody.in/refund-policy" target="_blank">Refund</a>
-                                <a href="https://herody.in/return-policy" target="_blank">Return</a>
-                                <a href="https://herody.in/shipping-policy" target="_blank">Shipping</a>
-                                <a href="https://herody.in/terms-policy" target="_blank">Terms & Conditions</a>
-                              </div>
-                            </div>
+    <!--<header class="template-header absolute-header navbar-left sticky-header">-->
+    <!--    <div class="topbar">-->
+    <!--        <p >Let's make something great together.</p>-->
+    <!--    </div>-->
+    <!--    <div class="container">-->
+    <!--        <div class="header-inner">-->
+    <!--            <div class="header-left">-->
+    <!--                <div class="site-logo">-->
+    <!--                    <a href="https://herody.in">-->
+    <!--                        <img width="75" height="75" src="{{asset('assets/digital/assets/img/logo.png')}}" alt="Business Form">-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <nav class="nav-menu d-none d-xl-block">-->
+    <!--                    <ul class="primary-menu">-->
+    <!--                       <li>-->
+    <!--                            <a class="active" href="https://herody.in">Home</a>-->
+    <!--                        </li>-->
+    <!--                        <li>-->
+    <!--                            <a  href="https://herody.in/gigworkers">Gigworkers</a>-->
+    <!--                        </li>-->
+    <!--                        <li>-->
+    <!--                            <a  href="https://herody.in/businesses">Businesses</a> -->
+    <!--                        </li>-->
+    <!--                        <li>-->
+    <!--                            <a href="#about">About</a>-->
+    <!--                        </li>-->
+    <!--                         <li>-->
+    <!--                            <a href="https://herody.in/careers">Careers</a>-->
+    <!--                        </li>-->
+    <!--                        <li>-->
+    <!--                            <a href="#contact">Contact</a>  -->
+    <!--                        </li>-->
+    <!--                        <div class="dropdown">-->
+    <!--                          <button class="dropbtn">Policy</button>-->
+    <!--                          <div class="dropdown-content">-->
+    <!--                            <a href="https://herody.in/privacy-policy" target="_blank">Privacy</a>-->
+    <!--                            <a href="https://herody.in/refund-policy" target="_blank">Refund</a>-->
+    <!--                            <a href="https://herody.in/return-policy" target="_blank">Return</a>-->
+    <!--                            <a href="https://herody.in/shipping-policy" target="_blank">Shipping</a>-->
+    <!--                            <a href="https://herody.in/terms-policy" target="_blank">Terms & Conditions</a>-->
+    <!--                          </div>-->
+    <!--                        </div>-->
                             
-                        </ul>
-                    </nav>
-                </div>
-                <div class="header-right">
-                    <ul class="header-extra">
-                        <li class="header-btns d-none d-md-block">
-                            <a href="{{ route('bform') }}" class="template-btn" >
-                                Get Started <i class="fa-solid fa-long-arrow-right"></i>
-                            </a>
-                        </li>
-                        <li class="d-xl-none">
-                            <div class="navbar-toggler">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <!--                    </ul>-->
+    <!--                </nav>-->
+    <!--            </div>-->
+    <!--            <div class="header-right">-->
+    <!--                <ul class="header-extra">-->
+    <!--                    <li class="header-btns d-none d-md-block">-->
+    <!--                        <a href="{{ route('bform') }}" class="template-btn" >-->
+    <!--                            Get Started <i class="fa-solid fa-long-arrow-right"></i>-->
+    <!--                        </a>-->
+    <!--                    </li>-->
+    <!--                    <li class="d-xl-none">-->
+    <!--                        <div class="navbar-toggler">-->
+    <!--                            <span></span>-->
+    <!--                            <span></span>-->
+    <!--                            <span></span>-->
+    <!--                        </div>-->
+    <!--                    </li>-->
+    <!--                </ul>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
         <!-- Mobile Menu -->
-        <div class="slide-panel mobile-slide-panel">
-            <div class="panel-overlay"></div>
-            <div class="panel-inner">
-                <div class="panel-logo"></div>
-                <nav class="mobile-menu">
+    <!--    <div class="slide-panel mobile-slide-panel">-->
+    <!--        <div class="panel-overlay"></div>-->
+    <!--        <div class="panel-inner">-->
+    <!--            <div class="panel-logo"></div>-->
+    <!--            <nav class="mobile-menu">-->
+    <!--                <ul class="primary-menu">-->
+    <!--                    <div class="dropdown">-->
+    <!--                          <div class="dropbtn">Policy</div>-->
+    <!--                          <div class="dropdown-content">-->
+    <!--                            <a href="https://herody.in/privacy-policy" target="_blank">Privacy</a>-->
+    <!--                            <a href="https://herody.in/refund-policy" target="_blank">Refund</a>-->
+    <!--                            <a href="https://herody.in/return-policy" target="_blank">Return</a>-->
+    <!--                            <a href="https://herody.in/shipping-policy" target="_blank">Shipping</a>-->
+    <!--                            <a href="https://herody.in/terms-policy" target="_blank">Terms & Conditions</a>-->
+    <!--                          </div>-->
+    <!--                        </div>-->
+    <!--                    <li>-->
+    <!--                        <a class="active" href="https://herody.in">Home</a>  -->
+    <!--                    </li>-->
+    <!--                    <li>-->
+    <!--                        <a  href="https://herody.in/gigworkers">Gigworkers</a>-->
+    <!--                    </li>-->
+    <!--                    <li>-->
+    <!--                        <a  href="https://herody.in/businesses">Businesses</a>   -->
+    <!--                    </li>-->
+    <!--                    <li>-->
+    <!--                        <a href="#about">About</a>-->
+    <!--                    </li>-->
+    <!--                    <li>-->
+    <!--                            <a href="https://herody.in/careers">Careers</a>-->
+    <!--                        </li>-->
+    <!--                    <li>-->
+    <!--                        <a href="#contact">Contact</a>-->
+    <!--                    </li>-->
+    <!--                </ul>-->
+    <!--            </nav>-->
+    <!--            <a href="#" class="panel-close">-->
+    <!--                <i class="fa-solid fa-times"></i>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</header>-->
+    <header class="template-header absolute-header navbar-left sticky-header">
+    <div class="topbar">
+        <p>Let's make something great together.</p>
+    </div>
+    <div class="container">
+        <div class="header-inner">
+            <div class="site-logo">
+                    <a href="https://herody.in">
+                        <img width="75" height="75" src="{{asset('assets/digital/assets/img/logo.png')}}" alt="Business Form">
+                    </a>
+                </div>
+            <div class="header-left">
+                
+                <nav class="nav-menu d-none d-xl-block">
                     <ul class="primary-menu">
-                        <div class="dropdown">
-                              <div class="dropbtn">Policy</div>
-                              <div class="dropdown-content">
-                                <a href="https://herody.in/privacy-policy" target="_blank">Privacy</a>
-                                <a href="https://herody.in/refund-policy" target="_blank">Refund</a>
-                                <a href="https://herody.in/return-policy" target="_blank">Return</a>
-                                <a href="https://herody.in/shipping-policy" target="_blank">Shipping</a>
-                                <a href="https://herody.in/terms-policy" target="_blank">Terms & Conditions</a>
-                              </div>
-                            </div>
-                        <li>
-                            <a class="active" href="https://herody.in">Home</a>  
-                        </li>
-                        <li>
-                            <a  href="https://herody.in/gigworkers">Gigworkers</a>
-                        </li>
-                        <li>
-                            <a  href="https://herody.in/businesses">Businesses</a>   
-                        </li>
-                        <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li>
-                                <a href="https://herody.in/careers">Careers</a>
-                            </li>
-                        <li>
-                            <a href="#contact">Contact</a>
-                        </li>
+                        <li><a class="active" href="https://herody.in">Home</a></li>
+                        <li><a href="https://herody.in/gigworkers">Gigworkers</a></li>
+                        <li><a href="https://herody.in/businesses">Businesses</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="https://herody.in/careers">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="https://herody.in/sponsorship">Sponsorship</a></li>
+                        <li class="dropdown">
+    <button class="dropbtn small-rect-btn">Policy</button>
+    <div class="dropdown-content">
+        <a href="https://herody.in/privacy-policy" target="_blank">Privacy</a>
+        <a href="https://herody.in/refund-policy" target="_blank">Refund</a>
+        <a href="https://herody.in/return-policy" target="_blank">Return</a>
+        <a href="https://herody.in/shipping-policy" target="_blank">Shipping</a>
+        <a href="https://herody.in/terms-policy" target="_blank">Terms & Conditions</a>
+    </div>
+</li>
+
+                        <li class="header-btns d-none d-md-block">
+                       <a href="{{ route('bform') }}" class="template-btn" style="padding: 6px 10px; border-radius: 4px; font-size: 14px;">
+    Get Started <i class="fa-solid fa-long-arrow-right"></i>
+</a>
+
+                    </li>
+                    <li class="d-xl-none">
+                        <div class="navbar-toggler">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </li>
                     </ul>
                 </nav>
-                <a href="#" class="panel-close">
-                    <i class="fa-solid fa-times"></i>
-                </a>
             </div>
         </div>
-    </header>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="slide-panel mobile-slide-panel">
+        <div class="panel-overlay"></div>
+        <div class="panel-inner">
+            <div class="panel-logo">
+                <a href="https://herody.in">
+                    <img width="75" height="75" src="{{asset('assets/digital/assets/img/logo.png')}}" alt="Business Form">
+                </a>
+            </div>
+            <nav class="mobile-menu">
+                <ul class="primary-menu">
+                    <li><a class="active" href="https://herody.in">Home</a></li>
+                    <li><a href="https://herody.in/gigworkers">Gigworkers</a></li>
+                    <li><a href="https://herody.in/businesses">Businesses</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="https://herody.in/careers">Careers</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="https://herody.in/sponsorship">Sponsorship</a></li>
+                    <li class="dropdown">
+                        <div class="dropbtn">Policy</div>
+                        <div class="dropdown-content">
+                            <a href="https://herody.in/privacy-policy" target="_blank">Privacy</a>
+                            <a href="https://herody.in/refund-policy" target="_blank">Refund</a>
+                            <a href="https://herody.in/return-policy" target="_blank">Return</a>
+                            <a href="https://herody.in/shipping-policy" target="_blank">Shipping</a>
+                            <a href="https://herody.in/terms-policy" target="_blank">Terms & Conditions</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <a href="#" class="panel-close">
+                <i class="fa-solid fa-times"></i>
+            </a>
+        </div>
+    </div>
+</header>
+
     <!--====== End Header ======-->
     <!--====== Start Hero Area ======-->
     <section class="hero-area-three">

@@ -77,9 +77,13 @@
                 <li><a href="{{ route('admin.applicants.index') }}"><i class="far fa-circle"></i> View Applicants</a></li>
             </ul>
         </li>
+                <li id="employers"><a href="{{route('sponsorship.index')}}"><i class="fa fa-building"></i> Sponsorship</a></li>
+
         
         <li id="managers"><a href="{{route('admin.managers')}}"><i class="far fa-user"></i> Managers</a></li>
         <li id="employers"><a href="{{route('admin.employers')}}"><i class="fa fa-building"></i> Employers</a></li>
+        <li id="help"><a href="{{route('admin.help.index')}}"><i class="far fa-question-circle"></i> Help</a></li>
+
 
         <li>
             <a href="#Withdraw" data-toggle="collapse">

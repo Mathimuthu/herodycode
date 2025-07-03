@@ -3,38 +3,7 @@
 @section('title', 'Admin | All Internships')
 
 @section('body')
-<style>
-    .pagination .page-link {
-        color: #007bff;
-        border: 1px solid #dee2e6;
-        padding: 8px 12px;
-    }
 
-    .pagination .page-item.active .page-link {
-        background-color: #007bff;
-        color: white;
-        border-color: #007bff;
-    }
-
-    .pagination .page-item.disabled .page-link {
-        color: #6c757d;
-        pointer-events: none;
-        background-color: #f8f9fa;
-    }
-
-    .table-responsive {
-        border-collapse: separate;
-        /* Ensures spacing works */
-        border-spacing: 10px;
-        /* Adjust column gap */
-    }
-
-    .table td,
-    .table th {
-        padding: 12px;
-        /* Adjusts cell padding */
-    }
-</style>
     <div class="container-fluid">
         <h2 class="mb-4">Business Form Responses</h2>
 
@@ -81,62 +50,7 @@
                         </tbody>
                     </table>
                     
-                    {{-- {{$bforms->links()}} --}}
-                    <!-- Pagination Links -->
-             <div class="d-flex justify-content-left">
-                <nav>
-                    <ul class="pagination">
-                        {{-- Previous Page Link --}}
-                        @if ($bforms->onFirstPage())
-                            <li class="page-item disabled">
-                                <span class="page-link">«</span>
-                            </li>
-                        @else
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $bforms->previousPageUrl() }}" rel="prev">«</a>
-                            </li>
-                        @endif
-            
-                        {{-- First Page --}}
-                        @if ($bforms->currentPage() > 3)
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $bforms->url(1) }}">1</a>
-                            </li>
-                            @if ($bforms->currentPage() > 4)
-                                <li class="page-item disabled"><span class="page-link">...</span></li>
-                            @endif
-                        @endif
-            
-                        {{-- Page Range --}}
-                        @for ($page = max(1, $bforms->currentPage() - 2); $page <= min($bforms->lastPage(), $bforms->currentPage() + 2); $page++)
-                            <li class="page-item {{ $page == $bforms->currentPage() ? 'active' : '' }}">
-                                <a class="page-link" href="{{ $bforms->url($page) }}">{{ $page }}</a>
-                            </li>
-                        @endfor
-            
-                        {{-- Last Page --}}
-                        @if ($bforms->currentPage() < $bforms->lastPage() - 2)
-                            @if ($bforms->currentPage() < $bforms->lastPage() - 3)
-                                <li class="page-item disabled"><span class="page-link">...</span></li>
-                            @endif
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $bforms->url($bforms->lastPage()) }}">{{ $bforms->lastPage() }}</a>
-                            </li>
-                        @endif
-            
-                        {{-- Next Page Link --}}
-                        @if ($bforms->hasMorePages())
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $bforms->nextPageUrl() }}" rel="next">»</a>
-                            </li>
-                        @else
-                            <li class="page-item disabled">
-                                <span class="page-link">»</span>
-                            </li>
-                        @endif
-                    </ul>
-                </nav>
-            </div>
+                    {{$bforms->links()}}
                 @endif
                 
             </div>

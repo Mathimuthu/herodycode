@@ -25,11 +25,14 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\GigController;
 use App\Http\Controllers\Employer\CampaignController as EmployerCampaignController;
+use App\Http\Controllers\Employer\CampaignDescriptionController;
 use App\Http\Controllers\Employer\HomeController as EmployerHomeController;
 use App\Http\Controllers\JobApplicantController as ControllersJobApplicantController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Employer\DashboardController as EmployerDashboardController;
 use App\Http\Controllers\Employer\GigController as EmployerGigController;
+use App\Http\Controllers\Employer\QuestionController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\Manager\CampaignController as ManagerCampaignController;
@@ -138,7 +141,7 @@ Route::post('logout', [HomeController::class, 'logout'])->name('logout');
 
     //Gig
     Route::get('gig',[AdminCampaignController::class,'ShowAllCampaign'])->name('campaign.all');
-    Route::get('pending-gig', 'CampaignController@pendings')->name('campaign.pendings');
+    Route::get('pending-gig', [AdminCampaignController::class,'Pendings'])->name('campaign.pendings');
     Route::get('backup-gig', [AdminCampaignController::class, 'BackupGig'])->name('campaign.backup');
 Route::get('gig-log', [AdminCampaignController::class, 'ShowCampaignLog'])->name('campaign.log');
 Route::get('create-gig', [AdminCampaignController::class, 'CreateCampaign'])->name('campaign.create');
@@ -409,11 +412,37 @@ Route::post('getcities','WorldController@cities')->name('world.cities');
         Route::post('campaign/response/accept', 'acceptResp')->name('mission.acceptResp');
         Route::post('campaign/response/reject', 'rejectResp')->name('mission.rejectResp');
     });
+
+    Route::post('/referral_evaluate', [QuestionController::class, 'referralStatus'])->name('referral_evaluate');
+
+    //CamQuestion
+    Route::controller(QuestionController::class)->group(function () {
+        Route::get('/questions', 'index')->name('questions.index');
+        Route::get('/questions/create', 'create')->name('questions.create');
+        Route::post('/questions', 'store')->name('questions.store');
+        Route::get('/questions/{id}', 'show')->name('questions.show');
+        Route::get('/questions/{id}/edit', 'edit')->name('questions.edit');
+        Route::put('/questions/{id}', 'update')->name('questions.update');
+        Route::delete('/questions/{id}', 'destroy')->name('questions.destroy');
+        Route::get('/employer/questions/answers/{campaign_id}', [App\Http\Controllers\Employer\QuestionController::class, 'viewAnswers'])
+    ->name('questions.answers');
+
+    //campain
+    Route::get('/cam_description', [CampaignDescriptionController::class, 'index'])->name('campaign-descriptions.index');
+    Route::get('/cam_description/create', [CampaignDescriptionController::class, 'create'])->name('campaign-descriptions.create');
+    Route::post('/cam_description', [CampaignDescriptionController::class, 'store'])->name('campaign-descriptions.store');
+    Route::get('/cam_description/{id}/edit', [CampaignDescriptionController::class, 'edit'])->name('campaign-descriptions.edit');
+    Route::put('/cam_description/{id}', [CampaignDescriptionController::class, 'update'])->name('campaign-descriptions.update');
+    Route::delete('/cam_description/{id}', [CampaignDescriptionController::class, 'destroy'])->name('campaign-descriptions.destroy');
+    });
 });
 Route::get('employer/email-not-verified',function(){
     return view('employer.pages.text_email_verify');
 })->name('employer.email.verify');
-
+      
+Route::post('/employer/add-balance', [QuestionController::class, 'addBalance'])->name('employer.add-balance');
+Route::post('/answer/status', [QuestionController::class, 'updateStatus'])->name('answer.status');
+Route::get('sponsorships', 'SponsorshipController@index')->name('sponsorship.index');
 Route::get('projects', [ProjectController::class, 'list'])->name('projects');
 Route::get('project/{id}', [ProjectController::class, 'details'])->name('job.details');
 Route::post('project/apply', [ProjectController::class, 'apply'])->name('job.apply');
@@ -555,3 +584,13 @@ Route::get('/givereward/{id}/{amt}', [RazorpayController::class, 'givereward']);
 // Email Routes
 Route::get('/send-email', [EmailController::class, 'sendEmail'])->name('send.email');
 Route::get('/send-simple-email', [EmailController::class, 'sendSimpleEmail'])->name('send.simple.email');
+Route::get('/referral/register', [App\Http\Controllers\ReferralController::class, 'showRegistrationForm']);
+Route::post('/referral/register', [App\Http\Controllers\ReferralController::class, 'register'])->name('referral.register');
+
+//form 
+Route::controller(FormController::class)->group(function () {
+    Route::get('/form', 'showForm')->name('form.show');
+    Route::post('/form', 'submitForm')->name('form.submit');
+});
+Route::post('referral_evaluate', [QuestionController::class, 'referralStatus'])->name('referral_evaluate');
+

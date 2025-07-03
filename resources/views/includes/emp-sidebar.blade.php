@@ -23,6 +23,8 @@
 							<li><a href="{{route('projects')}}"><span class="flaticon-paper-plane"></span> All Internships</a></li>
 							<li><a href="{{route('gigs')}}"><span class="flaticon-paper-plane"></span> All Gigs</a></li>
 							<li><a href="{{route('campaigns')}}"><span class="flaticon-paper-plane"></span> All Projects</a></li>
+																					<li><a href="{{route('employer.campaign-descriptions.index')}}"><span class="flaticon-paper-plane"></span> CamQuestion</a></li>
+
 							<li><a href="{{route('employer.logout')}}"><span class="flaticon-logout"></span> Logout</a></li>
 						</ul>
 					</div>

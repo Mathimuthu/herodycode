@@ -18,15 +18,16 @@ class HelpLinkController extends Controller
     }
 
     // Store or Update Help Links
-    public function store(Request $request)
-    {
-        $request->validate([
-            'whatsapp' => 'nullable|url',
-            'email' => 'nullable|email',
-            'google' => 'nullable|url',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'whatsapp' => 'nullable|url',
+        'email' => 'nullable|email',
+        'google' => 'nullable|url',
+    ]);
 
-        $helpLink = HelpLink::updateOrCreate(
+    try {
+        HelpLink::updateOrCreate(
             ['id' => 1], // Ensure there's only one record
             [
                 'whatsapp' => $request->whatsapp,
@@ -35,11 +36,13 @@ class HelpLinkController extends Controller
             ]
         );
 
-        return response()->json([
-            'message' => 'Help links updated successfully',
-            'data' => $helpLink
-        ], 200);
+        return redirect()->back()->with('success', 'Help links stored successfully!');
+
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Failed to store help links! Please try again.');
     }
+}
+
     public function apiIndex()
     {
         $helpLinks = HelpLink::first();

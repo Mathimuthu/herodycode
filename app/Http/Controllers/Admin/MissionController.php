@@ -162,23 +162,14 @@ class MissionController extends Controller
     }
 
     // Applications
-    public function applications($id)
-    {
-        // Fetch campaign applications with user data
-        $campaigns = CampaignApp::where('cid', $id)->with('user')->latest()->paginate(100);
-
-        // Debugging: Check if data exists
-        if ($campaigns->isEmpty()) {
-            return back()->with('error', 'No applications found for this campaign.');
-        }
-
-        return view('admin.mission.applications', [
-            'campaigns' => $campaigns,
-            'campid' => $id,
+    public function applications($id){
+        
+    
+        $campaigns = CampaignApp::where('cid',$id)->latest()->paginate(100);
+        return view('admin.mission.applications')->with([
+            'campaigns' => $campaigns, 'campid' => $id
         ]);
     }
-
-    
     public function accept($id){
         $campaign = CampaignApp::find($id);
         $campaign->status = 1;

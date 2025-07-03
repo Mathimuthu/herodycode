@@ -29,6 +29,23 @@
     <link rel="stylesheet" href="{{asset('assets/digital/assets/css/style.css')}}" />
     <!--====== Responsive CSS ======-->
     <link rel="stylesheet" href="{{asset('assets/digital/assets/css/responsive.css')}}" />
+    <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '617748413708892');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=617748413708892&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Archivo&display=swap');
         .hero-area-three .hero-content .hero-title {
@@ -45,13 +62,14 @@
     </style>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q1TFE7Z5PC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-Q1TFE7Z5PC');
-</script>
+    <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-Q1TFE7Z5PC');
+        </script>
+       
 </head>
 
 <body>
@@ -219,13 +237,13 @@
                                     <div class="counter-items row">
                                         <div class="col-lg-6">
                                             <div class="counter-item counter-black mt-40">
-                                                <div class="counter-wrap"><span style="font-size: 30px;">400+</span></div>
+                                                <div class="counter-wrap"><span style="font-size: 30px;">500+</span></div>
                                                 <h6 class="title font-montserrat" style="font-size: 25px;">Trusted by Brands</h6>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="counter-item counter-black mt-40">
-                                                <div class="counter-wrap"><span style="font-size: 30px;">20,000,000+</span></div>
+                                                <div class="counter-wrap"><span style="font-size: 30px;">50000000+</span></div>
                                                 <h6 class="title font-montserrat" style="font-size: 25px;">Tasks Completed</h6>
                                             </div>
                                         </div>
@@ -237,7 +255,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="counter-item counter-black mt-40">
-                                                <div class="counter-wrap"><span style="font-size: 30px;">2,50,000+</span></div>
+                                                <div class="counter-wrap"><span style="font-size: 30px;">5,00,000+</span></div>
                                                 <h6 class="title font-montserrat" style="font-size: 20px;">Gig workers community</h6>
                                             </div>
                                         </div>
