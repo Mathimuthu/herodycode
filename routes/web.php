@@ -31,8 +31,10 @@ use App\Http\Controllers\JobApplicantController as ControllersJobApplicantContro
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\Employer\DashboardController as EmployerDashboardController;
 use App\Http\Controllers\Employer\GigController as EmployerGigController;
+use App\Http\Controllers\Employer\InfluencerCampaignController as EmployerInfluencerCampaignController;
 use App\Http\Controllers\Employer\QuestionController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\SponsorshipController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\Manager\CampaignController as ManagerCampaignController;
@@ -80,13 +82,14 @@ Route::get('beta',[HomeController::class,'index'])->name('admin');
 Route::post('beta',[HomeController::class,'login'])->name('admin.login');
 
 
-// playstore link 
+// playstore link
 // Route::get('signin/{id}','Admin\HomeController@signin')->name('signin');
 Route::get('signin/{id}',[HomeController::class,'signin'])->name('signin');
 
 Route::get('admin/managers', [Manager::class, 'index'])->name('admin.managers');
-Route::post('admin/manager/create',[Manager::class, 'create'])->name('admin.manager.create'); 
-Route::post('admin/manager/delete',[Manager::class, 'delete'])->name('admin.manager.delete'); 
+Route::post('admin/manager/create',[Manager::class, 'create'])->name('admin.manager.create');
+Route::post('admin/manager/delete',[Manager::class, 'delete'])->name('admin.manager.delete');
+Route::get('admin/manager/login',[Manager::class, 'managerLogin'])->name('admin.manager.login');
 
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
@@ -98,6 +101,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
         Route::get('applicants', [JobApplicantController::class, 'index'])->name('applicants.index');
         Route::post('applicants/{id}/mark-called', [JobApplicantController::class, 'markAsCalled'])->name('applicants.mark-called');
 
+Route::get('sponsorships', [SponsorshipController::class, 'index'])->name('sponsorship.index');
 
 // Bforms Routes
 Route::get('bforms', [HomeController::class, 'bformv'])->name('bforms');
@@ -225,14 +229,14 @@ Route::get('withdraw-log', [DashboardController::class, 'ShowWithdrawLog'])->nam
 Route::post('withdraw-approve', [DashboardController::class, 'WithdrawApproved'])->name('withdraw.approve');
 Route::post('withdraw-reject', [DashboardController::class, 'WithdrawReject'])->name('withdraw.reject');
 
-    
+
    // Banner
 Route::get('banner', [BannerController::class, 'index'])->name('banner.index');
 Route::post('banner/store', [BannerController::class, 'store'])->name('banner.store');
 Route::put('banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
 Route::delete('banner/destroy', [BannerController::class, 'destroy'])->name('banner.destroy');
 
-    
+
 // Excel Exports
 Route::get('project/export', [AdminJobController::class, 'export_excel'])->name('project.export');
 Route::get('gig/export', [AdminCampaignController::class, 'export_excel'])->name('gig.export');
@@ -258,7 +262,7 @@ Route::post('telecalling/application/select', [TelecallingController::class, 'se
 Route::post('telecalling/application/reject', [TelecallingController::class, 'reject'])->name('telecalling.reject');
 Route::get('telecalling/application/view-data/{tid}/{uid}', [TelecallingController::class, 'viewData'])->name('telecalling.viewdata');
 Route::get('telecalling/application/view-feedback/{id}', [TelecallingController::class, 'feedback'])->name('telecalling.feedback');
-    
+
   // Careers
 Route::get('jobs', [CareerController::class, 'index'])->name('jobs.index');
 Route::get('jobs/create', [CareerController::class, 'create'])->name('jobs.create');
@@ -269,7 +273,7 @@ Route::delete('jobs/{job}/destroy', [CareerController::class, 'destroy'])->name(
 
 });
 
-    
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -299,7 +303,7 @@ Route::get('/businesses',function(){
 Route::get('/careers', function () {
     // Fetch all jobs from the Career model
     $jobs = Career::all();
-    
+
     // Pass the jobs data to the view
     return view('career', compact('jobs'));
 });
@@ -338,41 +342,41 @@ Route::post('getcities','WorldController@cities')->name('world.cities');
             Route::get('change-pass', 'change_passr')->name('changepass');
             Route::post('change-pass', 'change_pass')->name('changepass');
         });
-    
+
         Route::controller(EmployerJobController::class)->group(function () {
             Route::get('projects', 'manage')->name('job.manage');
             Route::get('projects/post', 'postr')->name('job.post');
             Route::post('projects/post', 'post')->name('job.post');
             Route::post('projects/post/benefits', 'postbene')->name('job.benefits');
             Route::get('projects/post/confirmation', 'confirmation')->name('job.confirmation');
-        
+
             Route::get('project/edit/{id}', 'editr')->name('job.edit');
             Route::post('project/edit/{id}', 'edit')->name('job.edit');
             Route::get('project/delete/{id}', 'delete')->name('job.delete');
-        
+
             Route::get('project/applications/{id}', 'applications')->name('job.applications');
             Route::get('project/applications/{id}/shortlisteds', 'shortlisteds')->name('job.shortlisteds');
             Route::get('project/applications/{id}/shortlist/{uid}', 'shortlist')->name('job.shortlist');
             Route::post('project/applications/shortlistall', 'shortlistall')->name('job.shortlistall');
-        
+
             Route::get('project/applications/{id}/reject/{uid}', 'reject')->name('job.reject');
             Route::post('project/applications/rejectall', 'rejectall')->name('job.rejectall');
-        
+
             Route::get('project/applications/{id}/select/{uid}', 'select')->name('job.select');
             Route::post('project/applications/selectall', 'selectall')->name('job.selectall');
             Route::get('project/applications/{id}/selecteds', 'selecteds')->name('job.selecteds');
-        
+
             Route::get('project/applications/{jid}/{uid}/issue_certificate', 'issue_certificate')->name('job.issue_certificate');
             Route::post('project/applications/{jid}/payout', 'payout')->name('job.payout');
             Route::get('project/applications/{jid}/{uid}/proofs', 'proofs')->name('job.proofs');
-        
+
             Route::get('project/{id}/download-proofs', 'export_excel')->name('job.eproof');
             Route::get('project/applications/{jid}/{uid}/answers', 'answers')->name('job.answers');
             Route::get('project/{id}/exportapps', 'exportapps')->name('job.exportapps');
             Route::get('project/{id}/exportsl', 'exportsl')->name('job.exportsl');
         });
 
-    
+
         Route::controller(EmployerGigController::class)->group(function () {
             Route::get('gigs', 'manage')->name('campaign.manage');
             Route::get('gigs/create', 'creater')->name('campaign.create');
@@ -435,20 +439,43 @@ Route::post('getcities','WorldController@cities')->name('world.cities');
     Route::put('/cam_description/{id}', [CampaignDescriptionController::class, 'update'])->name('campaign-descriptions.update');
     Route::delete('/cam_description/{id}', [CampaignDescriptionController::class, 'destroy'])->name('campaign-descriptions.destroy');
     });
+
+    Route::get('influencercampaign',[InfluencerCampaignController::class,'index'])->name('influencercampaign.index');
+    Route::get('influencercampaign/create',[InfluencerCampaignController::class,'creater'])->name('influencercampaign.create');
+    Route::post('influencercampaign/create',[InfluencerCampaignController::class,'create'])->name('influencercampaign.create');
+    Route::get('influencercampaign/edit/{id}', [InfluencerCampaignController::class,'editer'])->name('influencercampaign.editer');
+    Route::post('influencercampaign/edit/{id}',[InfluencerCampaignController::class,'edit'])->name('influencercampaign.edit');
+    Route::post('influencercampaign/delete',[InfluencerCampaignController::class,'delete'])->name('influencercampaign.delete');
+    Route::get('/influencer-campaign/{id}/status-history', [InfluencerCampaignController::class,'statusHistory'])->name('influencercampaign.statushistory');
+    Route::get('/influencer-campaign/{id}/influencer-data/{manager}', [InfluencerCampaignController::class,'showInfluencerData'])->name('influencercampaign.influencerdata');
+
 });
+Route::post('/employer/influencer/{id}/update-status', [EmployerInfluencerCampaignController::class,'updateStatus'])
+    ->name('employer.influencercampaign.updateStatus');
+Route::post('employer/influencer/bulk-update-status', [EmployerInfluencerCampaignController::class,'bulkUpdateStatus'])
+    ->name('employer.influencercampaign.bulkUpdateStatus');
+Route::post('/employer/influencer/{id}/UploadLiveStatus', [EmployerInfluencerCampaignController::class,'UploadLiveStatus'])
+    ->name('employer.influencercampaign.UploadLiveStatus');
+
 Route::get('employer/email-not-verified',function(){
     return view('employer.pages.text_email_verify');
 })->name('employer.email.verify');
-      
+
 Route::post('/employer/add-balance', [QuestionController::class, 'addBalance'])->name('employer.add-balance');
 Route::post('/answer/status', [QuestionController::class, 'updateStatus'])->name('answer.status');
-Route::get('sponsorships', 'SponsorshipController@index')->name('sponsorship.index');
 Route::get('projects', [ProjectController::class, 'list'])->name('projects');
 Route::get('project/{id}', [ProjectController::class, 'details'])->name('job.details');
 Route::post('project/apply', [ProjectController::class, 'apply'])->name('job.apply');
 Route::post('project/location', [ProjectController::class, 'loc'])->name('job.location');
 Route::post('project/category', [ProjectController::class, 'cat'])->name('job.cat');
 Route::post('project/proof', [ProjectController::class, 'proofs'])->name('job.proof');
+
+
+
+Route::get('/sponsorship', [SponsorshipController::class,'create'])->name('sponsorship.create');
+Route::post('/sponsorship', [SponsorshipController::class,'store'])->name('sponsorship.store');
+Route::delete('/sponsorships/delete', [SponsorshipController::class,'bulkDelete'])->name('sponsorships.delete');
+Route::delete('/sponsorships/{id}', [SponsorshipController::class,'destroy'])->name('sponsorships.destroy');
 
 // Gigs
 Route::get('gigs', [GigController::class, 'list'])->name('gigs');
@@ -527,6 +554,8 @@ Route::get('manager/users/export/excel', [MemberManageController::class, 'excel_
 Route::get('manager/users/export/excel/ref', [MemberManageController::class, 'excel_referrals'])->name('manager.member.export.referrals');
 Route::get('manager/login', [ManagerHomeController::class, 'loginr'])->name('manager.loginr');
 Route::post('manager/login', [ManagerHomeController::class, 'login'])->name('manager.login');
+Route::post('manager/create',[ManagerHomeController::class,'create'])->name('manager.create');
+Route::get('manager/register',[ManagerHomeController::class,'register'])->name('manager.register');
 
 Route::middleware(['Manager'])
     ->prefix('manager')
@@ -543,6 +572,12 @@ Route::middleware(['Manager'])
         Route::post('create-gigs', [MainController::class, 'storeGig'])->name('gig.create');
         Route::get('approve-campaign/{id}', [MainController::class, 'approveCampaign'])->name('campaign.approve');
         Route::get('reject-campaign/{id}', [MainController::class, 'rejectCampaign'])->name('campaign.reject');
+
+        Route::post('influencercampaign/update-status', [MainController::class,'updateStatus'])->name('influencercampaign.updateStatus');
+        Route::post('/influencer-campaign/upload-excel', [MainController::class,'uploadExcel'])->name('influencercampaign.uploadExcel');
+        Route::get('/campaign/{id}/profiles', [MainController::class,'viewProfiles'])->name('influencercampaign.viewProfiles');
+        Route::post('/update-content-status', [MainController::class,'updateContentStatus'])->name('updateContentStatus');
+        Route::post('/upload-file', [MainController::class,'uploadFile'])->name('uploadFile');
 
         // Campaigns
         Route::get('campaigns', [ManagerCampaignController::class, 'index'])->name('missions');
@@ -587,7 +622,7 @@ Route::get('/send-simple-email', [EmailController::class, 'sendSimpleEmail'])->n
 Route::get('/referral/register', [App\Http\Controllers\ReferralController::class, 'showRegistrationForm']);
 Route::post('/referral/register', [App\Http\Controllers\ReferralController::class, 'register'])->name('referral.register');
 
-//form 
+//form
 Route::controller(FormController::class)->group(function () {
     Route::get('/form', 'showForm')->name('form.show');
     Route::post('/form', 'submitForm')->name('form.submit');

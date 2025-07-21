@@ -32,6 +32,18 @@
                     <textarea name="description">{{$gig->description}}</textarea>
                 </div>
                 <div class="form-group mb-3">
+                    <label for="banner">Upload Banner</label>
+                    <input type="file" name="upload" class="form-control form-control-lg">
+
+                    @if(!empty($gig->banner))
+                        <div class="mt-2">
+                            <a href="{{ asset($gig->banner) }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                View Uploaded Image
+                            </a>
+                        </div>
+                    @endif
+                </div>
+                <div class="form-group mb-3">
                     <label for="per_cost">Enter amount per user</label>
                     <input type="number" name="per_cost"  value="{{$gig->per_cost}}" class="form-control form-control-lg">
                 </div>

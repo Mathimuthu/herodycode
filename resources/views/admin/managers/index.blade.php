@@ -36,13 +36,20 @@
                                 <th scope="row">{{$manager->username}}</th>
                                 <th scope="row">{{$manager->team_id}}</th>
                                 <th scope="row">{{$manager->email}}</th>
-                                <th scope="row">
-                                    <form action="{{route('admin.manager.delete')}}" method="post">
-                                    @csrf
-                                        <input type="hidden" name="id" value="{{$manager->id}}">
+                                <th scope="row" class="d-flex gap-2">
+                                    <form action="{{ route('admin.manager.delete') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $manager->id }}">
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                     </form>
+                                
+                                    <form action="{{ route('admin.manager.login') }}" method="get">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $manager->id }}">
+                                        <button type="submit" class="btn btn-success btn-sm">Login</button>
+                                    </form>
                                 </th>
+
                                 
                             </tr>
                         @endforeach

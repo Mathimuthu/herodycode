@@ -31,7 +31,7 @@
 
 					 		</div>
 					 		<div class="profile-form-edit">
-					 			<form action="{{route('employer.campaign.create')}}" method="post">
+					 			<form action="{{route('employer.campaign.create')}}" method="post" enctype="multipart/form-data">
                                      @csrf
 					 				<div class="row">
 					 					<div class="col-lg-12">
@@ -45,6 +45,12 @@
 					 						<div class="pf-field">
                                                 <textarea name="description" id="description" style="font-family: Poppins;"></textarea>
                                             </div>
+					 					</div>
+                                        <div class="col-lg-12">
+					 						<span class="pf-title">Banner</span>
+					 						<div class="pf-field">
+                                                <input type="file" name="upload" placeholder="Upload banner image" required>
+					 						</div>
 					 					</div>
                                         <div class="col-lg-12">
 					 						<span class="pf-title">Amount per person</span>
@@ -73,7 +79,7 @@
                                                 @endforeach
 					 						</div>
                                          </div>
-                                         
+
                                         <div class="col-lg-12">
 					 						<button type="submit">Submit</button>
 					 					</div>

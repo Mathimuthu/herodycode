@@ -34,16 +34,32 @@
     @stack('styles')
     @yield('heads')
     <style>
-      body{
-        background: #fff;
-      }
+      html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
       .main-c{
         margin-top: 6rem;
+        flex: 1;
+
       }
+        footer {
+            background-color: #001f3f;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
     </style>
   </head>
   <body>
+  @hasSection('custom_header')
+    @yield('custom_header')
+@else
     @include('includes.header')
+@endif
+
     <div class="main-c">
     @yield('content')
     

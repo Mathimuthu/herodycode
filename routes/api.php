@@ -74,7 +74,7 @@ use Illuminate\Support\Facades\Route;
 //     Route::post('mobileContent','ProjectController@mobile');
 
        Route::get('/gigs',[GigController::class,'list'])->name('gigs');
-       Route::get('/gig/details',[GigController::class,'details'])->name('gig/details');
+       Route::post('/gig/details',[GigController::class,'details'])->name('gig/details');
        Route::get('/gig/apply',[GigController::class,'apply'])->name('gig/apply');
 
        Route::get('/gig/proof/fb',[GigController::class,'prooffb'])->name('gig/proof/fb');

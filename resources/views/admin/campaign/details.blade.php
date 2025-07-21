@@ -29,12 +29,15 @@
                     <label for="description">about gig</label>
                     <textarea name="description" disabled="">{{$gig->description}}</textarea>
                 </div>
+                @if(!empty($gig->banner))
+                    <div class="mt-2">
+                        <img src="{{ asset($gig->banner) }}" alt="Banner Image" style="max-height: 150px; border: 1px solid #ccc; padding: 5px;">
+                    </div>
+                @endif
                 <div class="form-group mb-3">
                     <label for="per_cost">amount per user</label>
                     <input type="number" name="per_cost"  value="{{$gig->per_cost}}" class="form-control form-control-lg" disabled="">
                 </div>
-                
-                
                <a href="{{route('admin.campaign.edit',$gig->id)}}" > <button type="submit" class="btn btn-primary">Edit</button></a>
                 <a href="{{route('admin.campaign.all')}}" ><button type="submit" class="btn btn-primary">Back</button>
             </form>

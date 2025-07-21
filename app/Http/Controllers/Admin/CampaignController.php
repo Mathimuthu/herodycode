@@ -53,48 +53,48 @@ class CampaignController extends Controller
         $gig = Gig::find($id);
         return view('admin.campaign.details',compact('gig'));
     }
-    
-    // Active or Inactive 
+
+    // Active or Inactive
     public function statusCampaign($id)
     {
         $gig = Gig::find($id);
-    
+
         if ($gig) {
             // Toggle the gigstatus
             $gig->gigstatus = !$gig->gigstatus;
             $gig->save();
         }
-    
+
         return back();
     }
-    
+
     public function toggleShowStatus($id)
     {
         $gig = Gig::find($id);
-    
+
         if ($gig) {
             // Toggle the status: 0 -> 1 -> 2 -> 0
             $newStatus = ($gig->show_status + 1) % 4; // Cycle through 0, 1, 2
             $gig->show_status = $newStatus;
             $gig->save();
         }
-    
+
         return back();
     }
      public function toggleViewStatus($id)
     {
         $gig = Gig::findOrFail($id);
-    
+
         // If view_status is null, set it to 0 (default)
         if (is_null($gig->view_status)) {
             $gig->view_status = 0;
         }
-    
+
         // Toggle the view_status between 0 and 1
         $gig->view_status = $gig->view_status == 1 ? 0 : 1;
-    
+
         $gig->save();
-    
+
         return redirect()->back()->with('success', 'View status updated successfully!');
     }
 
@@ -183,6 +183,7 @@ class CampaignController extends Controller
         $campaign->per_cost = $pending->per_cost;
         $campaign->campaign_title = $pending->campaign_title;
         $campaign->description = $pending->description;
+        $campaign->banner = $pending->banner;
         $campaign->brand = $pending->brand;
         $campaign->logo = $pending->logo;
         $campaign->timing = $pending->timing;
@@ -202,7 +203,7 @@ class CampaignController extends Controller
         $emp = Employer::find($campaign->user_id);
 
         // Mail
-        
+
         Session()->flash('success','Gig Approved');
         return redirect()->back();
     }
@@ -213,7 +214,7 @@ class CampaignController extends Controller
         $emp = Employer::find($campaign->user_id);
 
         // Mail
-        
+
         Session()->flash('success','Gig Deleted');
         return redirect()->back();
     }
@@ -326,10 +327,10 @@ class CampaignController extends Controller
         $this->validate($request,[
             'id' => 'required',
         ]);
-    
+
         // Get the gig before deleting
         $gig = Gig::find($request->id);
-    
+
         // Store the deleted gig details in the deleted_gigs table
         DeletedGig::create([
             'id' => $gig->id,
@@ -340,10 +341,10 @@ class CampaignController extends Controller
             'user_id' => $gig->user_id,
             // Add other fields you want to store
         ]);
-    
+
         // Soft delete the gig
         $gig->delete();
-    
+
         $request->session()->flash('success', 'Deleted Successfully');
         return redirect()->back();
         // $this->validate($request,[
@@ -361,9 +362,9 @@ class CampaignController extends Controller
         $request->session()->flash('success', 'Backup Gig Deleted Successfully');
         return redirect()->back();
     }
-    
+
     public function export_excel_for_backup($id){
-        
+
         $job = DeletedGig::find($id);
         // dd($job->user_id);
         // dd($em);
@@ -378,7 +379,7 @@ class CampaignController extends Controller
                 return redirect()->back();
             }
             else{
-                $campaignTitle = $job->campaign_title; 
+                $campaignTitle = $job->campaign_title;
                 $fileName = $campaignTitle . ' backup_accepted_proofs.xlsx';
                 return Excel::download(new GigProofs($id, $campaignTitle), $fileName);
                 // return Excel::download(new GigProofs($id), 'proofs.xlsx');
@@ -389,11 +390,11 @@ class CampaignController extends Controller
             return redirect()->back();
         }
     }
-    
+
     public function export_reject_excel_for_backup($id){
         // $em = Employer::find(Auth::guard('employer')->id());
         $job = DeletedGig::find($id);
-        
+
         if($job==NULL){
             Session()->flash('warning','You cannot perform this action');
             return redirect()->back();
@@ -405,7 +406,7 @@ class CampaignController extends Controller
                 return redirect()->back();
             }
             else{
-                $campaignTitle = $job->campaign_title; 
+                $campaignTitle = $job->campaign_title;
                 $fileName = $campaignTitle . ' backup_rejected_proofs.xlsx';
                 return Excel::download(new RejectProofs($id, $campaignTitle), $fileName);
                 // return Excel::download(new RejectProofs($id), 'rejectproofs.xlsx');
@@ -416,8 +417,8 @@ class CampaignController extends Controller
             return redirect()->back();
         }
     }
-    
-    
+
+
     public function EditCampaign($id){
         $campaignCategory = GigCategory::get();
         $gig = Gig::find($id);
@@ -431,26 +432,44 @@ class CampaignController extends Controller
         $this->validate($request,[
             'per_cost' => 'required|numeric',
             'description' => 'required',
+            'upload' => 'nullable|mimes:jpg,jpeg,png,webp',
             'campaign_title' => 'required',
-            'timing' => 'nullable|numeric', 
+            'timing' => 'nullable|numeric',
 
         ]);
         $gig = Gig::find($id);
+        $filePath = null;
+
+        if ($request->hasFile('upload')) {
+            $relativePath = "assets/Gigbanner/";
+            $basePath = dirname(public_path()) . '/';
+            $fullPath = $basePath . $relativePath;
+            $filename = time() . '.' . $request->file('upload')->getClientOriginalExtension();
+
+            if (!file_exists($fullPath)) {
+                mkdir($fullPath, 0755, true);
+            }
+
+            if (move_uploaded_file($request->file('upload')->getRealPath(), $fullPath . $filename)) {
+                $filePath = $relativePath . $filename;
+            }
+        }
         $gig->campaign_title = $request->campaign_title;
         $gig->description = $request->description;
+        $gig->banner = $filePath;
         $gig->per_cost = $request->per_cost;
         $gig->timing = $request->input('timing');
         $gig->save();
         $request->session()->flash('success', "Gig edited successfully");
         return redirect()->back();
-        
+
     }
     public function setPriority(Request $request)
     {
         $campaign = Gig::findOrFail($request->id);
         $campaign->priority = $request->priority;
         $campaign->save();
-    
+
         return redirect()->back()->with('success', 'Priority set successfully');
     }
     public function toggleShowFirst(Request $request, $id)

@@ -6,7 +6,7 @@
 
     <div class="container-fluid">
         <h2 class="mb-4">Gigs List</h2>
-        
+
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="liveSearch" placeholder="Search...">
         </div>
@@ -19,8 +19,8 @@
             </div>
             </div>
             <div class="card-body">
-                {{$campaigns->links()}}
-                <table class="table  table-striped table-bordered">
+                {{-- {{$campaigns->links()}} --}}
+                <table id="allcampaign" class="table  table-striped table-bordered">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -84,7 +84,7 @@
                                     <button type="submit" class="btn btn-info btn-sm">
                                         {{ $campaign->view_status == 1 ? 'Show Approved Applicants' : 'Show Total Applicants' }}
                                     </button>
-                                </form> 
+                                </form>
                             </td>
                             <!--<td>@if($user=="Admin")<a href="{{route('admin.campaign.app',$campaign->id)}}">View Applications</a>@endif</td>-->
                             <td>
@@ -104,12 +104,12 @@
                                 @csrf
                                 <div class="input-group input-group-sm">
                                     <!-- Input Field -->
-                                    <input type="number" name="set_slot" id="slotNumber-{{ $campaign->id }}" class="form-control form-control-sm" 
+                                    <input type="number" name="set_slot" id="slotNumber-{{ $campaign->id }}" class="form-control form-control-sm"
                                            placeholder="Slot #" min="0" value="{{ $campaign->set_slot }}" style="max-width: 60px;" oninput="updateSlotDisplay({{ $campaign->id }})" >
-                                    
+
                                     <!-- Display Selected Slot -->
                                     <span class="input-group-text" id="slotDisplay-{{ $campaign->id }}">{{ $campaign->set_slot ?? '-' }}</span>
-                                    
+
                                     <!-- Submit Button -->
                                     <button type="submit" class="btn {{ $campaign->set_slot ? 'btn-success' : 'btn-secondary' }}">
                                         {{ $campaign->set_slot ? 'Update Slot' : 'Set Slot' }}
@@ -120,12 +120,12 @@
                                 @csrf
                                 <div class="input-group input-group-sm mt-2">
                                     <!-- Second Slot Field -->
-                                    <input type="number" name="second_slot" id="secondSlotNumber-{{ $campaign->id }}" class="form-control form-control-sm" 
+                                    <input type="number" name="second_slot" id="secondSlotNumber-{{ $campaign->id }}" class="form-control form-control-sm"
                                            placeholder="Second Slot #" min="0" value="{{ $campaign->second_slot }}" style="max-width: 60px;" oninput="updateSecondSlotDisplay({{ $campaign->id }})">
-                                    
+
                                     <!-- Display Second Slot -->
                                     <span class="input-group-text" id="secondSlotDisplay-{{ $campaign->id }}">{{ $campaign->second_slot ?? '-' }}</span>
-                                    
+
                                     <!-- Submit Button for Second Slot -->
                                     <button type="submit" class="btn {{ $campaign->second_slot ? 'btn-success' : 'btn-secondary' }}">
                                         {{ $campaign->second_slot ? 'Update Slot' : 'Set Slot' }}
@@ -152,7 +152,7 @@
                             <td>
                                 <a href="{{route('admin.campaign.gig-details',$campaign->id)}}" class="btn btn-info btn-sm customs-btn-bd text-white" style="float:left;margin:5px 5px"> <i class="fa fa-eye"></i></a>
                                 <a href="{{route('admin.campaign.edit',$campaign->id)}}" class="btn btn-primary btn-sm customs-btn-bd text-white" style="float:left;margin:0px 5px"> <i class="fa fa-edit"></i></a>
-                                
+
                                 <form action="{{route("admin.campaign.delete")}}" method="POST">
                                     @csrf
                                     <input type="hidden" name="id" value="{{$campaign->id}}"/>
@@ -164,19 +164,22 @@
 
                     </tbody>
                 </table>
-                {{$campaigns->links()}}
+                {{-- {{$campaigns->links()}} --}}
             </div>
         </div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        // $(document).ready(function() {
+        //     $('#allcampaign').DataTable();
+        // });
         $(document).ready(function () {
             $('#liveSearch').on('keyup', function () {
                 var searchText = $(this).val().toLowerCase();
-    
+
                 $('.campaignRow').hide(); // Hide all rows initially
-    
+
                 // Iterate over all table rows, including those on different pages
                 $('.campaignRow').filter(function () {
                     return $(this).text().toLowerCase().includes(searchText);

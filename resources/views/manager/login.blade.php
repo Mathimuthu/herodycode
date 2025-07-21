@@ -17,7 +17,6 @@
         </div>
     </div>
 </section>
-
 <section>
     <div class="block remove-bottom">
         <div class="container">
@@ -41,8 +40,7 @@
                             <div class="extra-login">
                                 <span>Or</span>
                                 <div class="sign-info">
-                                    <span class="dark-color d-inline-block line-height-2">Do not Have Account ? <a href="{{ route('employer.for-businesses') }}">Sign Up</a></span>
-                                    
+                                    <span class="dark-color d-inline-block line-height-2">Do not Have Account ? <a href="{{ route('manager.register') }}">Sign Up</a></span>
                                 </div>
                             </div>
                         </div>

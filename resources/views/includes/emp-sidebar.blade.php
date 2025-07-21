@@ -16,6 +16,8 @@
 							<li class="{{Request::is('employer/profile')? 'active':''}}"><a href="{{route('employer.profile')}}"><span class="flaticon-profile"></span> Company Profile</a></li>
 							<li class="{{Request::is('employer/projects/post')? 'active':''}}"><a href="{{route('employer.job.post')}}"><span class="flaticon-resume"></span> Post a New Internship</a></li>
 							<li class="{{Request::is('employer/projects')? 'active':''}}"><a href="{{route('employer.job.manage')}}"><span class="flaticon-paper-plane"></span> Manage Internships</a></li>
+							<li class="{{Request::is('employer/influencercampaign')? 'active':''}}"><a href="{{route('employer.influencercampaign.index')}}"><span class="flaticon-chat"></span> Manage Influencer Campaign</a></li>
+							<li class="{{Request::is('employer/influencercampaign/post')? 'active':''}}"><a href="{{route('employer.influencercampaign.create')}}"><span class="flaticon-favorites"></span> Create Influencer Campaign</a></li>
 							<li class="{{Request::is('employer/gigs/post')? 'active':''}}"><a href="{{route('employer.campaign.create')}}"><span class="flaticon-favorites"></span> Post a New Gig</a></li>
 							<li class="{{Request::is('employer/gigs')? 'active':''}}"><a href="{{route('employer.campaign.manage')}}"><span class="flaticon-chat"></span> Manage Gigs</a></li>
 							<li class="{{Request::is('employer/campaigns')? 'active':''}}"><a href="{{route('employer.missions')}}"><span class="flaticon-chat"></span> Manage Campaigns</a></li>

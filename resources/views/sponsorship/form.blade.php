@@ -2,32 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sponsorship Form</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
-<body class="bg-gradient-to-b from-blue-100 via-blue-200 to-blue-300 font-[Poppins] min-h-screen">
+<style>
+   body {
+    background-image: url('https://herody.in/assets/digital/assets/img/hero/hero-bg-three.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+</style>
+<body class="font-[Inter] min-h-screen">
 
   <!-- Header with Blue Gradient -->
-  <header class="bg-gradient-to-r from-blue-100 via-blue-300 to-blue-700 shadow-md">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 text-white">
+<header class="">
+   <div class="topbar py-2 px-3 text-center" style="background-color: #001f3f;" style="font-family: 'Poppins', sans-serif;">
+  <p class="mb-0 small text-white">Let's make something great together.</p>
+</div>
+
+
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 py-4 text-white">
 
       <!-- Logo -->
-      <div class="h-20">
+      <div class="h-16 sm:h-20">
         <a href="#">
-         <img src="{{ asset('assets/digital/assets/img/logo.png') }}" alt="Herody" class="w-16 h-16"> 
+         <img src="{{ asset('assets/digital/assets/img/logo.png') }}" alt="Herody" class="w-12 h-12 sm:w-16 sm:h-16"> 
         </a>
       </div>
 
       <!-- Nav Links -->
-      <nav class="space-x-6 font-medium">
-        <a href="https://herody.in/" class="hover:text-blue-200 transition">Home</a>
-        <a href="#" class="hover:text-blue-200 transition">Contact Us</a>
-        <a href="#" class="hover:text-blue-200 transition">Sponsorship</a>
+     <nav class="hidden sm:flex space-x-4 sm:space-x-6 text-sm sm:text-base text-black font-bold" style="font-family: 'Poppins', sans-serif;">
+  <a href="https://herody.in/" class="hover:text-blue-200 transition">Home</a>
+  <a href="#" class="hover:text-blue-200 transition">Contact Us</a>
+  <a href="#" class="hover:text-blue-200 transition">Sponsorship</a>
+</nav>
+
+      <!-- Mobile Menu Button -->
+<button id="mobileMenuBtn" class="sm:hidden focus:outline-none bg-blue-900 text-white p-2 rounded">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="sm:hidden from-blue-100 via-blue-300 to-blue-700 px-4 pb-4 hidden">
+      <nav class="space-y-2 font-medium">
+        <a href="https://herody.in/" class="block py-2 hover:text-blue-200 transition">Home</a>
+        <a href="#" class="block py-2 hover:text-blue-200 transition">Contact Us</a>
+        <a href="#" class="block py-2 hover:text-blue-200 transition">Sponsorship</a>
       </nav>
     </div>
   </header>
+
 @if(session('success'))
-  <div class="max-w-4xl mx-auto mt-6">
+  <div class="max-w-4xl mx-auto mt-4 sm:mt-6 px-4 sm:px-0">
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-md shadow-sm">
       {{ session('success') }}
     </div>
@@ -35,13 +69,38 @@
 @endif
 
   <!-- Heading -->
-  <div class="text-center mt-10">
-    <h1 class="text-4xl font-extrabold text-black">Looking for sponsorship!</h1>
-    <p class="text-blue-600 mt-1">Don't worry you are at the right place</p>
-  </div>
+  <div class="max-w-4xl mx-auto px-4 text-black mt-0 text-sm sm:text-base leading-relaxed font-[Inter]">
+  <h2 class="text-2xl sm:text-4xl font-bold mb-4 text-center">Sponsorship Form</h2>
+
+  <p class="mb-4 text-center">
+    If you are a college student and part of any Team/Society/ Clubs and want to raise the funds for the events and your regular society activities,
+    you can start working with Herody on multiple task-based <b>cash</b> sponsorships.
+  </p>
+
+  <h3 class="font-semibold mb-2">Tasks that Work on with us:</h3>
+  <ul class="list-disc list-inside mb-4 ml-4">
+    <li>User Acquisition</li>
+    <li>Brand Promotion & Social Media</li>
+    <li>Fun Event Based Sponsorships</li>
+    <li>Webinars & much more based on requirements.</li>
+  </ul>
+
+  <!--<h3 class="font-semibold mb-2">More Benefits:</h3>-->
+  <!--<ul class="list-disc list-inside mb-4 ml-4">-->
+  <!--  <li>Get multiple sponsorship opportunities</li>-->
+  <!--  <li>Timely Payments</li>-->
+  <!--  <li>Work With Multiple Companies</li>-->
+  <!--</ul>-->
+
+<!-- <h3 class="font-semibold mb-2">Herody Sponsorships</h3>-->
+<!--  <p class="mb-2"><strong>Our App:</strong> <a href="https://play.google.com/store/apps/details?id=com.jaketa.herody" class="text-blue-600 underline">https://play.google.com/store/apps/details?id=com.jaketa.herody</a></p>-->
+<!--  <p class="mb-2"><strong>Community:</strong> <a href="https://chat.whatsapp.com/ELoNCt4qnck36kW2ISZXPN?mode=r_t" class="text-blue-600 underline">https://chat.whatsapp.com/ELoNCt4qnck36kW2lSZXPN?mode=r_t</a></p>-->
+<!--  <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/company/herody" class="text-blue-600 underline">https://www.linkedin.com/company/herody</a></p>-->
+<!--</div>-->
+
 
   <!-- Form -->
-<form method="POST" action="{{ route('sponsorship.store') }}" class="max-w-4xl mx-auto bg-white p-8 mt-8 mb-16 rounded-md shadow-md">
+<form method="POST" action="{{ route('sponsorship.store') }}" class="max-w-4xl mx-auto bg-white p-6 sm:p-8 mt-6 sm:mt-8 mb-12 sm:mb-16 rounded-md shadow-md mx-4 sm:mx-auto">
   @csrf
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div>
@@ -69,7 +128,7 @@
   <!-- Club / Society Radio -->
   <div class="mt-6">
     <label class="block font-medium mb-2">Are you part of any club or society?</label>
-    <div class="flex gap-4">
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
       <label><input type="radio" name="is_club_member" value="0" onclick="toggleClubFields(false)" class="mr-1"> No</label>
       <label><input type="radio" name="is_club_member" value="1" onclick="toggleClubFields(true)" class="mr-1"> Yes</label>
     </div>
@@ -90,7 +149,7 @@
   <!-- Upcoming Event Radio -->
   <div class="mt-6">
     <label class="block font-medium mb-2">Do you have any upcoming event?</label>
-    <div class="flex gap-4">
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
       <label><input type="radio" name="has_upcoming_event" value="0" onclick="toggleEventFields(false)" class="mr-1"> No</label>
       <label><input type="radio" name="has_upcoming_event" value="1" onclick="toggleEventFields(true)" class="mr-1"> Yes</label>
     </div>
@@ -133,10 +192,10 @@
   </div>
 </form>
 
-<footer class="mt-16 bg-gradient-to-r from-blue-100 via-blue-300 to-blue-700 text-white pt-12 pb-6">
-  <div class="max-w-7xl mx-auto px-6">
+<footer class="mt-16 bg-white text-black pt-12 pb-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <!-- Footer Top Area -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
       <!-- About Herody -->
       <div>
         <h4 class="text-2xl font-semibold mb-4">About <span class="text-orange-400">Herody</span></h4>
@@ -170,11 +229,13 @@
         <p class="text-sm mb-4">
           For any business related queries reach us out at <strong>raj@herody.in</strong>
         </p>
-        <ul class="flex items-center gap-4 text-xl">
+        <ul class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xl">
           <li><span class="text-sm">Follow Us:</span></li>
-          <li><a href="https://www.facebook.com/herodywebsite" class="hover:text-blue-400"><i class="fa-brands fa-facebook-square"></i></a></li>
-          <li><a href="https://www.instagram.com/herodyapp/" class="hover:text-pink-400"><i class="fa-brands fa-instagram-square"></i></a></li>
-          <li><a href="https://www.linkedin.com/company/herody/" class="hover:text-blue-300"><i class="fa-brands fa-linkedin"></i></a></li>
+          <li class="flex gap-4">
+            <a href="https://www.facebook.com/herodywebsite" class="hover:text-blue-400"><i class="fa-brands fa-facebook-square"></i></a>
+            <a href="https://www.instagram.com/herodyapp/" class="hover:text-pink-400"><i class="fa-brands fa-instagram-square"></i></a>
+            <a href="https://www.linkedin.com/company/herody/" class="hover:text-blue-300"><i class="fa-brands fa-linkedin"></i></a>
+          </li>
         </ul>
       </div>
     </div>
@@ -188,6 +249,12 @@
 
   <!-- Scripts -->
   <script>
+    // Mobile menu toggle
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('hidden');
+    });
+
     function toggleClubFields(show) {
       document.getElementById('clubFields').classList.toggle('hidden', !show);
     }

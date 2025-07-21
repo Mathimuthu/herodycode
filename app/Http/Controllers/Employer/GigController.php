@@ -52,6 +52,7 @@ class GigController extends Controller
             'cat' => 'required',
             'per_cost' => 'required|numeric',
             'description' => 'required',
+            'upload' => 'nullable|mimes:jpg,jpeg,png,webp',
             'campaign_title' => 'required',
             'filess'=>'required',
             'tasks' => 'required',
@@ -59,10 +60,28 @@ class GigController extends Controller
 
         ]);
         $emp = Employer::find(Auth::guard('employer')->id());
+        $filePath = null;
+
+        if ($request->hasFile('upload')) {
+            $relativePath = "assets/Gigbanner/";
+            $basePath = dirname(public_path()) . '/';
+            $fullPath = $basePath . $relativePath;
+            $filename = time() . '.' . $request->file('upload')->getClientOriginalExtension();
+
+            if (!file_exists($fullPath)) {
+                mkdir($fullPath, 0755, true);
+            }
+
+            if (move_uploaded_file($request->file('upload')->getRealPath(), $fullPath . $filename)) {
+                $filePath = $relativePath . $filename;
+            }
+        }
+
         $campaign = new PendingGig;
         $campaign->per_cost = $request->per_cost;
         $campaign->campaign_title = $request->campaign_title;
         $campaign->description = $request->description;
+        $campaign->banner = $filePath;
         $cat = "";
         foreach($request->cat as $cate){
             $cat = $cate.", ".$cat;
@@ -85,7 +104,7 @@ class GigController extends Controller
             $i++;
         }
 
-        
+
         //redirect
         Session()->flash('success', 'Your gig is successfully created. Wait for the admin to approve it.');
         return redirect()->back();
@@ -95,21 +114,21 @@ class GigController extends Controller
    public function applications($id)
     {
         $gig = Gig::findOrFail($id);
-    
+
         // Get all applications for the given gig
         $apps = GA::where('cid', $id)->orderBy('created_at', 'desc')->paginate(100);
-    
+
         // Count total applicants
         $totalApplicants = GA::where('cid', $id)->count();
         $gig->total_applicants = $totalApplicants;
-    
+
         // Count applicants with status = 4
         $approvedApplicants = GA::where('cid', $id)->where('status', 4)->count();
         $gig->approved_applicants = $approvedApplicants;
-    
+
         // Save the updated counts to the database
         $gig->save();
-    
+
         // Pass the approvedApplicants count to the view
         return view('employer.gigs.applications', [
             'gig' => $gig,
@@ -117,15 +136,15 @@ class GigController extends Controller
             'approvedApplicants' => $approvedApplicants, // Pass the count here
         ]);
     }
-    
+
     public function delete(Request $request){
         $this->validate($request,[
             'id' => 'required',
         ]);
-    
+
         // Get the gig before deleting
         $gig = Gig::find($request->id);
-    
+
         // Store the deleted gig details in the deleted_gigs table
         DeletedGig::create([
             'id' => $gig->id,
@@ -136,10 +155,10 @@ class GigController extends Controller
             'user_id' => $gig->user_id,
             // Add other fields you want to store
         ]);
-    
+
         // Soft delete the gig
         $gig->delete();
-    
+
         $request->session()->flash('success', 'Gig Deleted Successfully');
         return redirect()->back();
     }
@@ -156,7 +175,7 @@ class GigController extends Controller
     //         $subject = 'Application Approved';
     //         $message = "<p>Dear {$user->name},</p><p>We congratulate you on your selection in {$gig->campaign_title}.</p>";
     //         $data = array('sub' => $subject, 'message' => $message);
-    
+
     //         try {
     //             Mail::to($user->email)->send(new GlobalMail($data));
     //         } catch (\Exception $e) {
@@ -168,7 +187,7 @@ class GigController extends Controller
     //     }else {
     //         $invalidEmails[] = $user->email;
     //     }
-        
+
     //     // Check if there were any invalid emails
     //     if (!empty($invalidEmails)) {
     //         session()->flash('warning', 'Some emails were invalid and skipped: ' . implode(', ', $invalidEmails));
@@ -177,41 +196,41 @@ class GigController extends Controller
     //     }
     //     return redirect()->back();
     // }
-    
-    
-    
-    
+
+
+
+
     // public function approveApp($jid,$uid){
     //     GA::where(['cid'=>$jid,'uid'=>$uid])->update(['status' => 1]);
     //     $gig = Gig::find($jid);
     //     $user = User::find($uid);
-        
+
     //     // print_r($user);
     //     // exit;
-    
+
     //     // $client = new \GuzzleHttp\Client();
-                                            
+
     //     // $response = $client->request('POST', 'https://fcm.googleapis.com/v1/projects/herody-bf512/messages:send', [
     //     //     'body' => '{message: {token:' .$user->rigistration_token. ',priority: "high",data: {title: "Title Test",body: "This is body text"}}}',
     //     //     'headers' => [
     //     //     'content-type' => 'application/json',
     //     //     ],
     //     // ]);
-        
-        
+
+
     //     // Mail
-        
+
     //     // $subject = 'Gig Approval Message';
     //     // $message = "<p>Dear {$user->name},</p><p>We congratulate you on your selection in {$gig->campaign_title}.</p>";
     //     // $data = array('sub'=>$subject,'message'=>$message);
     //     // Mail::to($user->email)->send(new GlobalMail($data));
-        
+
     //     Session()->flash('success','Application Approved');
     //     return redirect()->back();
     // }
-    
-    
-    
+
+
+
       public function approveApp($jid, $uid)
     {
         $app = GA::where(['cid'=>$jid,'uid'=>$uid])->first();
@@ -219,29 +238,29 @@ class GigController extends Controller
         $app->save();
         $gig = Gig::find($jid);
         $user = User::find($uid);
-        
-       
+
+
         // $firebaseService = new FirebaseService();
 
         // $message = [
         //     'message' => [
-        //         'token' => $user->rigistration_token, 
+        //         'token' => $user->rigistration_token,
         //         'notification' => [
         //             'title' => 'Application Approved',
         //             'body' => 'Your application has been approved.'
         //         ],
-               
+
         //     ],
         // ];
-      
+
         // $firebaseService->sendMessage($message);
-        
+
         // Mails
         if (filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
             $subject = 'Application Approved';
             $message = "<p>Dear {$user->name},</p><p>We congratulate you on your selection in {$gig->campaign_title}.</p>";
             $data = array('sub'=>$subject,'message'=>$message);
-    
+
             try {
                 Mail::to($user->email)->send(new GlobalMail($data));
             } catch (\Exception $e) {
@@ -253,7 +272,7 @@ class GigController extends Controller
         }else {
             $invalidEmails[] = $user->email;
         }
-        
+
         // Check if there were any invalid emails
         if (!empty($invalidEmails)) {
             session()->flash('warning', 'Some emails were invalid and skipped: ' . implode(', ', $invalidEmails));
@@ -262,7 +281,7 @@ class GigController extends Controller
         }
         return redirect()->back();
     }
-    
+
     public function rejectApp($jid,$uid){
         $app = GA::where(['cid'=>$jid,'uid'=>$uid])->first();
         $app->status=2;
@@ -272,7 +291,7 @@ class GigController extends Controller
 
 
         // $client = new \GuzzleHttp\Client();
-                                            
+
         // $response = $client->request('POST', 'https://fcm.googleapis.com/v1/projects/herody-bf512/messages:send', [
         //     'body' => '{message: {token:' .$user->rigistration_token. ',priority: "high",data: {title: "Title Test",body: "This is body text"}}}',
         //     'headers' => [
@@ -280,13 +299,13 @@ class GigController extends Controller
         //     ],
         // ]);
 
-        
+
         // Mails
         if (filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
             $subject = 'Application Rejected';
             $message = "<p>Dear {$user->name},</p><p>Sorry , You are not selected for {$gig->campaign_title} .Please Try another gigs.</p>";
             $data = array('sub'=>$subject,'message'=>$message);
-    
+
             try {
                 Mail::to($user->email)->send(new GlobalMail($data));
             } catch (\Exception $e) {
@@ -298,7 +317,7 @@ class GigController extends Controller
         }else {
             $invalidEmails[] = $user->email;
         }
-        
+
         // Check if there were any invalid emails
         if (!empty($invalidEmails)) {
             session()->flash('warning', 'Some emails were invalid and skipped: ' . implode(', ', $invalidEmails));
@@ -307,36 +326,36 @@ class GigController extends Controller
         }
         return redirect()->back();
     }
-    
-    
+
+
     // public function approveAll(Request $request) {
     //     $employer = Employer::find(Auth::guard('employer')->id());
     //     $id = $request->id;
     //     $gig = Gig::find($request->id);
-    
+
     //     if ($gig->user_id == $employer->id) {
     //         // Get all applications with status 0 for the specified gig
     //         $applications = GA::where('cid', $id)->where('status', 0)->get();
-            
+
     //         if ($applications->isEmpty()) {
     //             session()->flash('warning', 'No applications found to approve on this page');
     //             return redirect()->back();
     //         }
-            
+
     //         // Collect invalid emails
     //         $invalidEmails = [];
-            
+
     //         // Update status and send emails
     //         foreach ($applications as $application) {
     //             $application->update(['status' => 1]);
     //             $user = User::find($application->uid); // Assuming you have a User model
-                
+
     //             // Validate email
     //             if (filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
     //                 $subject = 'Application Approved';
     //                 $message = "<p>Dear {$user->name},</p><p>We congratulate you on your selection in {$gig->campaign_title}.</p>";
     //                 $data = array('sub' => $subject, 'message' => $message);
-    
+
     //                 try {
     //                     Mail::to($user->email)->send(new GlobalMail($data));
     //                 } catch (\Exception $e) {
@@ -355,7 +374,7 @@ class GigController extends Controller
     //         } else {
     //             session()->flash('success', 'All pending applications have been approved');
     //         }
-            
+
     //         return redirect()->back();
     //     } else {
     //         session()->flash('warning', 'You cannot approve users for this project');
@@ -393,30 +412,30 @@ class GigController extends Controller
         $employer = Employer::find(Auth::guard('employer')->id());
         $id = $request->id;
         $gig = Gig::find($request->id);
-    
+
         if ($gig->user_id == $employer->id) {
             // Get all applications with status 0 for the specified gig
             $applications = GA::where('cid', $id)->where('status', 0)->get();
-            
+
             if ($applications->isEmpty()) {
                 session()->flash('warning', 'No applications found to reject');
                 return redirect()->back();
             }
-            
+
             // Collect invalid emails
             $invalidEmails = [];
-    
+
             // Update status and send emails
             foreach ($applications as $application) {
                 $application->update(['status' => 2]);
                 $user = User::find($application->uid); // Assuming you have a User model
-                
+
                 // Validate email
                 if (filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
                     $subject = 'Application Rejected';
                     $message = "<p>Dear {$user->name},</p><p>Sorry , You are not selected for {$gig->campaign_title} .Please Try another gigs.</p>";
                     $data = array('sub'=>$subject,'message'=>$message);
-                    
+
                     try {
                         Mail::to($user->email)->send(new GlobalMail($data));
                     } catch (\Exception $e) {
@@ -442,38 +461,38 @@ class GigController extends Controller
         }
     }
 
-    
 
-    
+
+
     public function approveAllForRejected(Request $request){
         $employer = Employer::find(Auth::guard('employer')->id());
         $id = $request->id;
         $gig = Gig::find($request->id);
-    
+
         if ($gig->user_id == $employer->id) {
-            
+
             // Get all applications with status 0 for the specified gig
             $applications = GA::where('cid', $id)->where('status', 2)->get();
-            
+
             if ($applications->isEmpty()) {
                 session()->flash('warning', 'No applications found to approve');
                 return redirect()->back();
             }
-            
+
             // Collect invalid emails
             $invalidEmails = [];
-    
+
             // Update status and send emails
             foreach ($applications as $application) {
                 $application->update(['status' => 1]);
                 $user = User::find($application->uid); // Assuming you have a User model
-                
+
                 // Validate email
                 if (filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
                     $subject = 'Application Approved';
                     $message = "Dear {$user->name},</p><p>We congratulate you on your selection in {$gig->campaign_title}.";
                     $data = array('sub'=>$subject,'message'=>$message);
-                    
+
                     try {
                         Mail::to($user->email)->send(new GlobalMail($data));
                     } catch (\Exception $e) {
@@ -498,42 +517,42 @@ class GigController extends Controller
             return redirect()->back();
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     // public function rejectAllForApproved(Request $request) {
     //     $employer = Employer::find(Auth::guard('employer')->id());
     //     $id = $request->id;
     //     $gig = Gig::find($request->id);
-    
+
     //     if ($gig->user_id == $employer->id) {
-            
+
     //         // Get all applications with status 0 for the specified gig
     //         $applications = GA::where('cid', $id)->where('status', 1)->get();
-            
+
     //         if ($applications->isEmpty()) {
     //             session()->flash('warning', 'No applications found to reject');
     //             return redirect()->back();
     //         }
     //         // Collect invalid emails
     //         $invalidEmails = [];
-    
+
     //         // Update status and send emails
     //         foreach ($applications as $application) {
     //             $application->update(['status' => 2]);
     //             $user = User::find($application->uid); // Assuming you have a User model
-                
+
     //             // Validate email
     //             if (filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
     //                 $subject = 'Application Rejected';
     //                 $message = "Dear {$user->name},</p><p>Unfortunately, all available slots for {$gig->campaign_title} are currently filled, and we cannot approve your application at this time.";
     //                 $data = array('sub'=>$subject,'message'=>$message);
-                    
+
     //                 try {
     //                     Mail::to($user->email)->send(new GlobalMail($data));
     //                 } catch (\Exception $e) {
@@ -628,9 +647,9 @@ class GigController extends Controller
     }
 }
 
-    
-    
-    
+
+
+
     public function viewproof($jid,$uid){
         $ga = GA::where(['cid'=>$jid,'uid'=>$uid])->first();
         $apps = CJ::where(['job_id'=>$jid,'user_id'=>$uid])->get();
@@ -639,25 +658,25 @@ class GigController extends Controller
             'ga' => $ga,
         ]);
     }
-    
+
     public function viewproof_after_reject_accept($jid, $uid) {
         $ga = GA::where(['cid' => $jid, 'uid' => $uid])->first();
         $apps = [];
-    
+
         if ($ga && $ga->status == 4) {
             $apps = CJ::where(['job_id' => $jid, 'user_id' => $uid])->get();
-        } 
+        }
         elseif($ga && $ga->status == 5) {
             $apps = IG::where(['job_id' => $jid, 'user_id' => $uid])->get();
         }
-    
+
         return view('employer.gigs.proofs_after_reject_accept')->with([
             'campaigns' => $apps,
             'ga' => $ga,
         ]);
     }
 
-    
+
 //   public function acceptproof($jid, $uid)
 // {
 //     // Ensure that the GA record exists
@@ -725,7 +744,7 @@ class GigController extends Controller
 //     return redirect()->back();
 // }
 
- 
+
   public function acceptproof($jid, $uid)
 {
     $ga = GA::where(['cid' => $jid, 'uid' => $uid])->first();
@@ -785,17 +804,17 @@ class GigController extends Controller
 
 
 
-    
+
     public function rejectproof($jid, $uid)
     {
         $ga = GA::where(['cid' => $jid, 'uid' => $uid])->first();
         $job = Gig::find($jid);
         $ga->status = 5;
         $ga->save();
-    
+
         $jobs = CJ::where(['job_id' => $jid, 'user_id' => $uid])->get();
         $path = "assets/user/images/proof_file/";
-    
+
         foreach ($jobs as $job) {
             if ($job->proof_file != null) {
             // Specify the destination directory where you want to copy the file
@@ -817,29 +836,29 @@ class GigController extends Controller
             $rejectedProof->proof_file = $job->proof_file;
             // Add other fields as needed
             $rejectedProof->save();
-            
+
             unlink($sourceFile);
         }
 
         // Delete the record from the CJ table
         $job->delete();
         }
-    
+
         // Mail
         // $subject = 'Proof Rejected';
         // $message = "<p>Dear {$user->name},</p><p>Sorry, Your proof has been carefully reviewed for {$job->campaign_title} and unfortunately, it does not meet our criteria for approval at this time.</p>";
         // $data = array('sub'=>$subject,'message'=>$message);
         // Mail::to($user->email)->send(new GlobalMail($data));
-    
+
         Session()->flash('success', "Rejected");
         return redirect()->back();
     }
-    
-    
+
+
     public function export_excel($id){
         $em = Employer::find(Auth::guard('employer')->id());
         $job = Gig::find($id);
-        
+
         if($job==NULL){
             Session()->flash('warning','You cannot perform this action');
             return redirect()->back();
@@ -851,7 +870,7 @@ class GigController extends Controller
                 return redirect()->back();
             }
             else{
-                $campaignTitle = $job->campaign_title; 
+                $campaignTitle = $job->campaign_title;
                 $currentDate = now()->format('Y-m-d');
                 $fileName = $campaignTitle . ' (' . $currentDate . ')' . ' accepted_proofs.xlsx';
                 return Excel::download(new GigProofs($id, $campaignTitle), $fileName);
@@ -863,13 +882,13 @@ class GigController extends Controller
             return redirect()->back();
         }
     }
-    
-    
+
+
     // ########
     public function export_reject_excel($id){
         $em = Employer::find(Auth::guard('employer')->id());
         $job = Gig::find($id);
-        
+
         if($job==NULL){
             Session()->flash('warning','You cannot perform this action');
             return redirect()->back();
@@ -881,7 +900,7 @@ class GigController extends Controller
                 return redirect()->back();
             }
             else{
-                $campaignTitle = $job->campaign_title; 
+                $campaignTitle = $job->campaign_title;
                 $fileName = $campaignTitle . ' rejected_proofs.xlsx';
                 return Excel::download(new RejectProofs($id, $campaignTitle), $fileName);
                 // return Excel::download(new RejectProofs($id), 'rejectproofs.xlsx');
@@ -892,9 +911,9 @@ class GigController extends Controller
             return redirect()->back();
         }
     }
-    
+
     // ########
-    
+
     function edit($id){
         $emp = Employer::find(Auth::guard('employer')->id());
         $campaignCategory = GigCategory::get();
@@ -952,7 +971,7 @@ class GigController extends Controller
     public function exportapps($id){
         $em = Employer::find(Auth::guard('employer')->id());
         $job = Gig::find($id);
-        
+
         if($job==NULL){
             Session()->flash('warning','You cannot perform this action');
             return redirect()->back();

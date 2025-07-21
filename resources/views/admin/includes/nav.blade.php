@@ -5,7 +5,10 @@
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
-                <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ Auth::guard('admin')->user()->name }}</a>
+                <a href="#" id="dd_user" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>@if(Auth::guard('admin')->check())
+    {{ Auth::guard('admin')->user()->name }}
+@endif
+</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd_user">
                     <a href="{{route('admin.changePassword')}}" class="dropdown-item"><i class="fa fa-cog"></i> Change Password</a>
 

@@ -15,9 +15,15 @@
                 @if(count($bforms)==0)
                     <h2 class="text-center">@lang('No Data Available')</h2>
                 @else
+                <form action="{{ route('admin.bform.bulkDelete') }}" method="POST" id="bulkDeleteForm">
+                @csrf
+                <div class="mb-2">
+                    <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete selected entries?')">Delete Selected</button>
+                </div>
                     <table class="table  table-striped table-bordered">
                         <thead>
                         <tr>
+                            <th><input type="checkbox" id="select-all"></th>
                             <th scope="col">ID</th>
                             <th scope="col">Contact Name</th>
                             <th scope="col">Company Name</th>
@@ -32,6 +38,7 @@
 
                         @foreach($bforms as $bform)
                             <tr>
+                                <td><input type="checkbox" name="ids[]" value="{{ $bform->id }}"></td>
                                 <th scope="row">{{$loop->iteration}}</th>
                                 <td>{{$bform->vname}}</td>
                                 <td>{{$bform->cname}}</td>
@@ -39,17 +46,19 @@
                                 <td>{{$bform->vmobile}}</td>
                                 <td>{{$bform->area}}</td>
                                 <td>{{$bform->msg}}</td>
-                                <td><form action="{{route('admin.bform.delete')}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{$bform->id}}">
-                                    <button class="btn btn-danger" id="submit" name="submit" type="submit" onclick="return confirm('Are you sure want to delete this?')">Delete</button>
-                                </form></td>
+                                 <td>
+                                    <a href="{{ route('admin.bform.delete', ['id' => $bform->id]) }}"
+                                       class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Are you sure you want to delete this?')">
+                                        Delete
+                                    </a>
+                                </td>
                                 
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-                    
+                </form>
                     {{$bforms->links()}}
                 @endif
                 
@@ -61,6 +70,9 @@
 
     {{--dropdown active--}}
     <script>
+          $('#select-all').on('click', function() {
+            $('input[name="ids[]"]').prop('checked', this.checked);
+        });
         $('#pending li:nth-child(2)').addClass('active');
         $('#pending').addClass('show');
     </script>
