@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\Admin\ManagerController as Manager;
+use App\Http\Controllers\Admin\ManagerController as Manager;
 use App\Career;
 use App\Employer;
 use App\Http\Controllers\Admin\BannerController;
