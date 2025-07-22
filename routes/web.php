@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ManagerController as Manager;
+// use App\Http\Controllers\Admin\ManagerController as Manager;
 use App\Career;
 use App\Employer;
 use App\Http\Controllers\Admin\BannerController;
@@ -557,7 +557,7 @@ Route::post('manager/login', [ManagerHomeController::class, 'login'])->name('man
 Route::post('manager/create',[ManagerHomeController::class,'create'])->name('manager.create');
 Route::get('manager/register',[ManagerHomeController::class,'register'])->name('manager.register');
 
-Route::middleware(['Manager'])
+Route::middleware(['auth:manager'])
     ->prefix('manager')
     ->name('manager.')
     ->group(function () {

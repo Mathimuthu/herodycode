@@ -16,7 +16,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="card-body">
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -29,14 +29,14 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
-                    
+
                     <form action="{{ route('employer.campaign-descriptions.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        
+
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="form-floating mb-3">
-                                    <input type="text" name="task_name" class="form-control @error('task_name') is-invalid @enderror" 
+                                    <input type="text" name="task_name" class="form-control @error('task_name') is-invalid @enderror"
                                            id="task_name" placeholder="Task Name" value="{{ old('task_name') }}" required>
                                     <label for="task_name">Task Name</label>
                                     @error('task_name')
@@ -44,12 +44,12 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea name="description" id="description" 
-                                              class="form-control @error('description') is-invalid @enderror" 
+                                    <textarea name="description" id="description"
+                                              class="form-control @error('description') is-invalid @enderror"
                                               rows="5" required>{{ old('description') }}</textarea>
                                     <div class="form-text">Provide clear instructions for completing this campaign task.</div>
                                     @error('description')
@@ -57,11 +57,24 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+                             <div class="col-12 col-md-6">
+                                <div class="mb-3">
+                                    <label for="upload_link" class="form-label">Upload Link</label>
+                                    <div class="input-group">
+                                        <input type="url" name="upload_link" id="upload_link"
+                                               class="form-control @error('upload_link') is-invalid @enderror"
+                                               value="{{ old('upload_link') }}"
+                                               placeholder="https://example.com/upload">
+                                    </div>
+                                    @error('upload_link')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label for="sample_screenshot" class="form-label">Sample Screenshot</label>
-                                    <input type="file" name="sample_screenshot" id="sample_screenshot" 
+                                    <input type="file" name="sample_screenshot" id="sample_screenshot"
                                            class="form-control @error('sample_screenshot') is-invalid @enderror"
                                            accept="image/*">
                                     <div class="form-text">Upload a sample image showing what users should expect (Max: 2MB).</div>
@@ -70,15 +83,15 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label for="youtube_link" class="form-label">YouTube Tutorial Link</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fab fa-youtube"></i></span>
-                                        <input type="url" name="youtube_link" id="youtube_link" 
+                                        <input type="url" name="youtube_link" id="youtube_link"
                                                class="form-control @error('youtube_link') is-invalid @enderror"
-                                               value="{{ old('youtube_link') }}" 
+                                               value="{{ old('youtube_link') }}"
                                                placeholder="https://youtube.com/watch?v=...">
                                     </div>
                                     <div class="form-text">Optional: Add a tutorial video link to help users.</div>
@@ -87,11 +100,11 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 col-md-6">
                                 <div class="mb-3">
                                     <label for="gig_id" class="form-label">Cost</label>
-                                    <input type="number" name="gig_id" id="gig_id" 
+                                    <input type="number" name="gig_id" id="gig_id"
                                            class="form-control @error('gig_id') is-invalid @enderror"
                                            value="{{ old('gig_id') }}" placeholder="Amount">
                                     <!--<div class="form-text">Optional: Associate this with an existing gig.</div>-->
@@ -101,9 +114,9 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <hr class="my-4">
-                        
+
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('employer.campaign-descriptions.index') }}" class="btn btn-outline-secondary">
                                 Cancel
@@ -115,7 +128,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <div class="mt-4 text-center">
                 <p class="text-muted small">
                     <i class="fas fa-info-circle me-1"></i>

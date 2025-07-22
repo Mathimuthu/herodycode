@@ -44,8 +44,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\TelecallingApp', 'uid');
     }
-    public function referral()
-    {
-        return $this->hasMany(Referral::class);
-    }
+     public function referrals()
+{
+    return $this->hasMany(Referral::class);
+}
 }

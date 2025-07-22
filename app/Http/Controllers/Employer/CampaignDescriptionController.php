@@ -33,11 +33,11 @@ class CampaignDescriptionController extends Controller
     //         'youtube_link' => 'nullable|url',
     //         'gig_id' => 'nullable|numeric',
     //     ]);
-    
+
     //     if ($validator->fails()) {
     //         return redirect()->back()->withErrors($validator)->withInput();
     //     }
-    
+
     //     $data = [
     //         'task_name' => $request->task_name,
     //         'description' => $request->description,
@@ -46,7 +46,7 @@ class CampaignDescriptionController extends Controller
     //         'gig_id' => $request->gig_id,
     //         'referral_code' => $this->generateReferralCode(),
     //     ];
-    
+
     //     // Handle file upload
     //     if ($request->hasFile('sample_screenshot')) {
     //         $tpath = "assets/campaign_screenshots/";
@@ -54,11 +54,11 @@ class CampaignDescriptionController extends Controller
     //         $tmp = $_FILES['sample_screenshot']['tmp_name'];
     //         $name = idate('U') . $name;
     //         $fullPath = public_path($tpath . $name);
-    
+
     //         if (!file_exists(public_path($tpath))) {
     //             mkdir(public_path($tpath), 0755, true);
     //         }
-    
+
     //         if (move_uploaded_file($tmp, $fullPath)) {
     //             $data['sample_screenshot'] = $tpath . $name;
     //         } else {
@@ -66,20 +66,21 @@ class CampaignDescriptionController extends Controller
     //             return redirect()->back()->withInput();
     //         }
     //     }
-    
+
     //     // Save campaign
     //     $campaign = CampaignDescription::create($data);
-    
+
     //     // Redirect to create questions for this campaign
     //     Session()->flash('success', 'Campaign description created successfully. Now add questions to your task.');
     //     return redirect()->route('employer.campaign-descriptions.index', ['campaign_id' => $campaign->id]);
     // }
-    
+
   public function store(Request $request)
 {
     $validator = Validator::make($request->all(), [
         'task_name' => 'required|string|max:255',
         'description' => 'required|string',
+        'upload_link' => 'nullable|url',
         'sample_screenshot' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'youtube_link' => 'nullable|url',
         'gig_id' => 'nullable|numeric',
@@ -92,6 +93,7 @@ class CampaignDescriptionController extends Controller
     $data = [
         'task_name' => $request->task_name,
         'description' => $request->description,
+        'upload_link' => $request->upload_link,
         'youtube_link' => $request->youtube_link,
         'employer_id' => Auth::guard('employer')->id(),
         'gig_id' => $request->gig_id,
@@ -103,16 +105,16 @@ class CampaignDescriptionController extends Controller
         $image = $request->file('sample_screenshot');
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $relativePath = "assets/campaign_screenshots/";
-        
+
         // Set custom base path to publichtml directory (one level up from public)
         $basePath = dirname(public_path()) . '/';
         $fullPath = $basePath . $relativePath;
-        
+
         // Create directory if it doesn't exist
         if (!file_exists($fullPath)) {
             mkdir($fullPath, 0755, true);
         }
-        
+
         // Move the file manually since we're using a custom path outside Laravel's public directory
         try {
             if (move_uploaded_file($image->getRealPath(), $fullPath . $filename)) {
@@ -138,21 +140,21 @@ class CampaignDescriptionController extends Controller
         ->with('success', 'Campaign description created successfully. Now add questions to your task.');
 }
 
-    
+
     // Helper method to generate a unique referral code
     private function generateReferralCode($length = 8)
     {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = '';
-        
+
         for ($i = 0; $i < $length; $i++) {
             $code .= $characters[rand(0, strlen($characters) - 1)];
         }
-        
+
         if (CampaignDescription::where('referral_code', $code)->exists()) {
             return $this->generateReferralCode($length); // Try again if code exists
         }
-        
+
         return $code;
     }
     public function edit($id)
@@ -170,6 +172,7 @@ class CampaignDescriptionController extends Controller
         $validator = Validator::make($request->all(), [
             'task_name' => 'required|string|max:255',
             'description' => 'required|string',
+            'upload_link' => 'nullable|url',
             'sample_screenshot' => 'nullable|file|image|max:2048',
             'youtube_link' => 'nullable|url',
             'gig_id' => 'nullable|numeric',
@@ -182,6 +185,7 @@ class CampaignDescriptionController extends Controller
         $data = [
             'task_name' => $request->task_name,
             'description' => $request->description,
+            'upload_link' => $request->upload_link,
             'youtube_link' => $request->youtube_link,
             'gig_id' => $request->gig_id,
         ];

@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sponsorship extends Model
 {
-     protected $fillable = [
+
+    protected $fillable = [
         'full_name',
         'college_name',
         'city',
@@ -23,3 +24,4 @@ class Sponsorship extends Model
         'expected_sponsorship',
     ];
 }
+

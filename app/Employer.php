@@ -20,9 +20,18 @@ class Employer extends Authenticatable
     {
         return $this->hasMany('App\Gig', 'user_id');
     }
-    public function questions()
+      public function questions()
     {
         return $this->hasMany('App\CamQuestion', 'employee_id');
     }
+    
+   public function campaigns()
+{
+    return $this->hasMany(CampaignDescription::class, 'employer_id', 'id');
+}
+public function getProfilePhotoUrlAttribute()
+{
+    return asset('assets/employer/profile_images/' . $this->profile_photo);
+}
     
 }
