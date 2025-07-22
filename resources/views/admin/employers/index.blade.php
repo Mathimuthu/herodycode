@@ -6,10 +6,10 @@
 
     <div class="container-fluid">
         <h2 class="mb-4">Employers List</h2>
-        
-        <div class="input-group mb-3">
+
+        {{-- <div class="input-group mb-3">
             <input type="text" class="form-control" id="liveSearch" placeholder="Search...">
-        </div>
+        </div> --}}
 
         <div class="card mb-4">
             <div class="card-header bg-white font-weight-bold">
@@ -18,13 +18,13 @@
                     <a class="btn btn-primary" href="{{route('admin.employer.create')}}">Create Employer</a>
                 </div>
             </div>
-            
+
             <div class="card-body">
                 @if(count($employers)==0)
                     <h2 class="text-center">@lang('No Data Available')</h2>
                 @else
-               {{$employers->links()}}
-                    <table class="table  table-striped table-bordered">
+               {{-- {{$employers->links()}} --}}
+                    <table id="allemployers" class="table  table-striped table-bordered">
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
@@ -57,26 +57,29 @@
                                     <button onClick ="return confirm('Are You sure want to delete this?')" type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                 </form>
                                 </th>
-                                
+
                             </tr>
                         @endforeach
 
                         </tbody>
                     </table>
                 @endif
-                {{$employers->links()}}
+                {{-- {{$employers->links()}} --}}
             </div>
         </div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('#allemployers').DataTable();
+        });
         $(document).ready(function () {
             $('#liveSearch').on('keyup', function () {
                 var searchText = $(this).val().toLowerCase();
-    
+
                 $('.campaignRow').hide(); // Hide all rows initially
-    
+
                 // Iterate over all table rows, including those on different pages
                 $('.campaignRow').filter(function () {
                     return $(this).text().toLowerCase().includes(searchText);
@@ -84,8 +87,8 @@
             });
         });
     </script>
-    
-    
+
+
     {{--dropdown active--}}
     <script>
         $('#employers').addClass('active');
