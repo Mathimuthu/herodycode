@@ -3,10 +3,27 @@
 @section('title', 'Employer | Project Application')
 
 @section('content')
-
-    <div class="container-fluid" style="margin-top: 160px">
-        <h2 class="mb-4">Project Application</h2>
-
+<?php
+    $employerId = Auth::guard('employer')->id();
+    $user = DB::table('employers')->find($employerId);
+?>
+<!-- Header Section -->
+<div class="mb-4">
+    <div class="card" style="background: linear-gradient(135deg, #d4edda 0%, #cce7ff 100%); border: none; border-radius: 30px;">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <h1 class="h2 font-weight-bold text-dark mb-0 ml-2">Hi, {{ $user->name }}</h1>
+            <img src="{{ asset('assets/images/manager-avatar.png') }}" alt="Manager" class="manager-avatar" style="width: 200px; height: 120px; object-fit: contain;" />
+        </div>
+    </div>
+</div>
+    <div class="container-fluid px-4">
+        <div class="card-header bg-white border-bottom">
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-3">
+                    <h2 class="h3 font-weight-bold text-dark text-center flex-fill text-sm-left mb-2 mb-sm-0 table-title">
+                        Project Applications
+                    </h2>
+                </div>
+        </div>
         <div class="input-group mb-3">
             <input type="text" class="form-control" id="liveSearch" placeholder="Search...">
         </div>
@@ -26,7 +43,7 @@
                     <tbody>
 
                     @foreach($campaigns as $campaign)
-                    <?php 
+                    <?php
                        $user = DB::table('users')->find($campaign->uid);
                     ?>
                     @if($user)
@@ -68,15 +85,15 @@
             </div>
         </div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#liveSearch').on('keyup', function () {
                 var searchText = $(this).val().toLowerCase();
-    
+
                 $('.campaignRow').hide(); // Hide all rows initially
-    
+
                 // Iterate over all table rows, including those on different pages
                 $('.campaignRow').filter(function () {
                     return $(this).text().toLowerCase().includes(searchText);
@@ -84,5 +101,5 @@
             });
         });
     </script>
-    
+
 @endsection

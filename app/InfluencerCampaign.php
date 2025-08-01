@@ -18,8 +18,9 @@ class InfluencerCampaign extends Model
         'twitter',
         'linkedin',
         'collab_type',
+        'status',
     ];
-    
+
    public function profiles()
 {
     return $this->hasMany(InfluencerProfile::class, 'influencer_campaign_id');

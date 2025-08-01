@@ -10,7 +10,7 @@ if(isset($_GET['code']))
   .mobileShow {display: none;}
 
   /* Smartphone Portrait and Landscape */
-  @media only screen and (min-device-width : 320px) and (max-device-width : 480px){ 
+  @media only screen and (min-device-width : 320px) and (max-device-width : 480px){
       .mobileShow {display: inline;}
   }
 </style>
@@ -74,7 +74,7 @@ if(isset($_GET['code']))
                                 <span>Or</span>
                                 <div class="sign-info">
                                     <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="{{ route('login') }}">Log In</a></span>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@ if(isset($_GET['code']))
             alert('You do not have truecaller app installed on your device');
         }
         else{
-            
+
             }
         }, 600);
     }

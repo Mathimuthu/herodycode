@@ -1,33 +1,123 @@
- 
-            <?php $ee = Auth::guard('employer')->id(); $user = DB::table('employers')->find($ee); ?>
-                <div class="col-sm-12 col-lg-4 col-xl-3 dn-smd">
-					<div class="user_profile">
-						<div class="media">
-						  	<center><img src="{{asset('assets/employer/profile_images/'.$user->profile_photo)}}" class="align-self-center rounded" style="margin-left:90%">
-						  	</center><div class="media-body">
-							</div>
-						</div>
-						
-						<h5 class="mt-1" style="margin-left:20%">Hi, {{$user->name}}</h5>
-					</div>
-					<div class="dashbord_nav_list">
-						<ul>
-							<li class="{{Request::is('employer/dashboard')? 'active':''}}"><a href="{{route('employer.dashboard')}}"><span class="flaticon-dashboard"></span> Dashboard</a></li>
-							<li class="{{Request::is('employer/profile')? 'active':''}}"><a href="{{route('employer.profile')}}"><span class="flaticon-profile"></span> Company Profile</a></li>
-							<li class="{{Request::is('employer/projects/post')? 'active':''}}"><a href="{{route('employer.job.post')}}"><span class="flaticon-resume"></span> Post a New Internship</a></li>
-							<li class="{{Request::is('employer/projects')? 'active':''}}"><a href="{{route('employer.job.manage')}}"><span class="flaticon-paper-plane"></span> Manage Internships</a></li>
-							<li class="{{Request::is('employer/influencercampaign')? 'active':''}}"><a href="{{route('employer.influencercampaign.index')}}"><span class="flaticon-chat"></span> Manage Influencer Campaign</a></li>
-							<li class="{{Request::is('employer/influencercampaign/post')? 'active':''}}"><a href="{{route('employer.influencercampaign.create')}}"><span class="flaticon-favorites"></span> Create Influencer Campaign</a></li>
-							<li class="{{Request::is('employer/gigs/post')? 'active':''}}"><a href="{{route('employer.campaign.create')}}"><span class="flaticon-favorites"></span> Post a New Gig</a></li>
-							<li class="{{Request::is('employer/gigs')? 'active':''}}"><a href="{{route('employer.campaign.manage')}}"><span class="flaticon-chat"></span> Manage Gigs</a></li>
-							<li class="{{Request::is('employer/campaigns')? 'active':''}}"><a href="{{route('employer.missions')}}"><span class="flaticon-chat"></span> Manage Campaigns</a></li>
-							<li class="{{Request::is('employer/change-pass')? 'active':''}}"><a href="{{route('employer.changepass')}}"><span class="flaticon-locked"></span> Change Password</a></li>
-							<li><a href="{{route('projects')}}"><span class="flaticon-paper-plane"></span> All Internships</a></li>
-							<li><a href="{{route('gigs')}}"><span class="flaticon-paper-plane"></span> All Gigs</a></li>
-							<li><a href="{{route('campaigns')}}"><span class="flaticon-paper-plane"></span> All Projects</a></li>
-																					<li><a href="{{route('employer.campaign-descriptions.index')}}"><span class="flaticon-paper-plane"></span> CamQuestion</a></li>
+<?php
+    $ee = Auth::guard('employer')->id();
+    $user = DB::table('employers')->find($ee);
+?>
+<div class="sidebar-gradient d-flex flex-column" style="min-height: 100vh;">
+    <!-- Logo -->
+    <div class="logo-container p-3">
+        <a href="{{ url('/') }}">
+            <img class="showsticky" src="{{ asset('assets/main/images/Viti.png') }}" width="60px" alt="Logo" />
+        </a>
+    </div>
 
-							<li><a href="{{route('employer.logout')}}"><span class="flaticon-logout"></span> Logout</a></li>
-						</ul>
-					</div>
-				</div>
+    <!-- Navigation -->
+    <nav class="sidebar-nav flex-grow-1">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a href="{{ route('employer.dashboard') }}" class="nav-link {{ Request::is('employer/dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.profile') }}" class="nav-link {{ Request::is('employer/profile') ? 'active' : '' }}">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Company Profile</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.job.post') }}" class="nav-link {{ Request::is('employer/projects/post') ? 'active' : '' }}">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Post New Internship</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.job.manage') }}" class="nav-link {{ Request::is('employer/projects') ? 'active' : '' }}">
+                    <i class="fas fa-tasks"></i>
+                    <span>Manage Internships</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.influencercampaign.index') }}" class="nav-link {{ Request::is('employer/influencercampaign') ? 'active' : '' }}">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Manage Influencer Campaign</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.influencercampaign.create') }}" class="nav-link {{ Request::is('employer/influencercampaign/post') ? 'active' : '' }}">
+                    <i class="fas fa-plus-square"></i>
+                    <span>Create Influencer Campaign</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.campaign.create') }}" class="nav-link {{ Request::is('employer/gigs/post') ? 'active' : '' }}">
+                    <i class="fas fa-plus"></i>
+                    <span>Post New Gig</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.campaign.manage') }}" class="nav-link {{ Request::is('employer/gigs') ? 'active' : '' }}">
+                    <i class="fas fa-tasks"></i>
+                    <span>Manage Gigs</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.missions') }}" class="nav-link {{ Request::is('employer/campaigns') ? 'active' : '' }}">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Manage Campaigns</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.changepass') }}" class="nav-link {{ Request::is('employer/change-pass') ? 'active' : '' }}">
+                    <i class="fas fa-lock"></i>
+                    <span>Change Password</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('projects') }}" class="nav-link {{ Request::is('projects') ? 'active' : '' }}">
+                    <i class="fas fa-briefcase"></i>
+                    <span>All Internships</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('gigss') }}" class="nav-link {{ Request::is('gigs') ? 'active' : '' }}">
+                    <i class="fas fa-bolt"></i>
+                    <span>All Gigs</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('campaigns') }}" class="nav-link {{ Request::is('campaigns') ? 'active' : '' }}">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>All Projects</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('employer.campaign-descriptions.index') }}" class="nav-link {{ Request::is('employer/campaign-descriptions') ? 'active' : '' }}">
+                    <i class="fas fa-question-circle"></i>
+                    <span>CamQuestion</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Logout at bottom -->
+    <div class="logout-container p-3 mt-auto">
+        <a href="{{ route('employer.logout') }}" class="nav-link text-danger">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</div>

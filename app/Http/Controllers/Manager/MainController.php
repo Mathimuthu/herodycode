@@ -54,7 +54,7 @@ public function dashboard()
             'pending' => $jobs,
         ]);
     }
-    
+
     public function jobApprove(Request $request){
         $pending = Pending::find($request->id);
         $job = new Project;
@@ -91,7 +91,7 @@ public function dashboard()
         $message="<p>Dear {$emp->name},</p><p>Your project, {$job->title}, has been accepted by a manager.</p>";
         $data = array('sub'=>$sub,'message'=>$message);
         Mail::to($emp->email)->send(new GlobalMail($data));
-        
+
         Session()->flash('success','Project Approved');
         return redirect()->back();
     }
@@ -112,7 +112,7 @@ public function dashboard()
         Session()->flash('success','Project Deleted');
         return redirect()->back();
     }
-    
+
     public function jobAll(){
         $jobs = Project::orderBy('updated_at')->paginate(15);
         return view('manager.pages.alljobs')->with([
@@ -131,7 +131,7 @@ public function dashboard()
         $campaigns = Gig::orderBy('created_at','desc')->paginate(15);
         return view('manager.pages.allgigs',compact('campaigns'));
     }
-    
+
     public function approveCampaign($id){
         $pending = PendingGig::find($id);
         $campaign = new Gig;
@@ -145,7 +145,7 @@ public function dashboard()
 
         $campaign->user_id = $pending->user_id;
         $campaign->save();
-        
+
         $tasks = PendingTask::where('cid',$pending->id)->get();
         foreach($tasks as $taske){
             $task = new Task;
@@ -268,7 +268,7 @@ public function dashboard()
             'updated_by' => $managerId,
         ]);
     }
-    
+
         return response()->json(['success' => true]);
     }
     public function uploadExcel(Request $request)
@@ -276,16 +276,16 @@ public function dashboard()
         if (!$request->hasFile('excel_file')) {
             return back()->with('error', 'No file uploaded.');
         }
-    
+
         $file = $request->file('excel_file');
         $ext = strtolower($file->getClientOriginalExtension());
-    
+
         if (!in_array($ext, ['xlsx', 'xls'])) {
             return back()->with('error', 'Invalid file type. Only .xlsx or .xls allowed.');
         }
-    
+
         $campaignId = $request->input('campaign_id');
-    
+
         if (!\DB::table('influencer_campaign')->where('id', $campaignId)->exists()) {
             return back()->with('error', 'Invalid campaign ID.');
         }
@@ -300,13 +300,13 @@ public function dashboard()
     public function viewProfiles($campaignId)
     {
         $managerId = auth('manager')->id();
-    
+
         $campaign = InfluencerCampaign::with(['profiles' => function ($query) use ($managerId) {
             $query->where('manager_id', $managerId);
         }])->findOrFail($campaignId);
-    
+
         $profiles = $campaign->profiles;
-    
+
         return view('manager.pages.view-profiles', compact('campaign', 'profiles'));
     }
     public function updateContentStatus(Request $request)
@@ -315,11 +315,11 @@ public function dashboard()
             'id' => 'required|exists:influencer_profiles,id',
             'content_status' => 'required|string|max:255'
         ]);
-    
+
         $profile = InfluencerProfile::find($request->id);
         $profile->content_status = $request->content_status;
         $profile->save();
-    
+
         return back()->with('success', 'Status Updated successfully!');
     }
      public function uploadFile(Request $request)
@@ -334,11 +334,11 @@ public function dashboard()
             $basePath = dirname(public_path()) . '/';
             $fullPath = $basePath . $relativePath;
             $filename = time() . '.' . $request->file('upload_file')->getClientOriginalExtension();
-    
+
             if (!file_exists($fullPath)) {
                 mkdir($fullPath, 0755, true);
             }
-    
+
             if (move_uploaded_file($request->file('upload_file')->getRealPath(), $fullPath . $filename)) {
                 $filePath = $relativePath . $filename;
             }
@@ -346,7 +346,7 @@ public function dashboard()
         $profile = InfluencerProfile::find($request->id);
         $profile->upload_file = $filePath;
         $profile->save();
-    
+
         return back()->with('success', 'File Uploaded successfully!');
     }
 

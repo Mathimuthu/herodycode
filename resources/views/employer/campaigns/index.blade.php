@@ -3,9 +3,27 @@
 @section('title', 'Employer | All Projects')
 
 @section('content')
-
-    <div class="container-fluid" style="margin-top: 150px ">
-        <h2 class="mb-4">Projects List</h2>
+<?php
+    $employerId = Auth::guard('employer')->id();
+    $user = DB::table('employers')->find($employerId);
+?>
+<!-- Header Section -->
+<div class="mb-4">
+    <div class="card" style="background: linear-gradient(135deg, #d4edda 0%, #cce7ff 100%); border: none; border-radius: 30px;">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <h1 class="h2 font-weight-bold text-dark mb-0 ml-2">Hi, {{ $user->name }}</h1>
+            <img src="{{ asset('assets/images/manager-avatar.png') }}" alt="Manager" class="manager-avatar" style="width: 200px; height: 120px; object-fit: contain;" />
+        </div>
+    </div>
+</div>
+    <div class="container-fluid">
+         <div class="card-header bg-white border-bottom">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-3">
+            <h2 class="h3 font-weight-bold text-dark text-center flex-fill text-sm-left mb-2 mb-sm-0 table-title">
+                Project List
+            </h2>
+        </div>
+  </div>
 
         <div class="card mb-4">
             <div class="card-header bg-white font-weight-bold">

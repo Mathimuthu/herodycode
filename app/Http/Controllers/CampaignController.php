@@ -59,9 +59,9 @@ class CampaignController extends Controller
             $ca = CampaignApp::where(['cid'=>$request->id,'uid' => Auth::user()->id,'status'=>1])->first();
             $campaign = Campaign::find($request->id);
             $form = Form::find($campaign->form);
-    
+
             $pageTitle = "{$form->name}";
-    
+
             return view('campaigns.response', compact('form', 'pageTitle','ca'));
         }
         else{
@@ -76,9 +76,9 @@ class CampaignController extends Controller
             $ca = CampaignApp::where(['cid'=>$id,'uid' => $uid,'status'=>1])->first();
             $campaign = Campaign::find($id);
             $form = Form::find($campaign->form);
-    
+
             $pageTitle = "{$form->name}";
-    
+
             return view('campaigns.response', compact('form', 'pageTitle','ca'));
         }
         else{

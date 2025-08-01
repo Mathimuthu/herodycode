@@ -2,10 +2,15 @@
 @section('title',config('app.name').' | Edit Project')
 
 @section('content')
-<div class="header pb-6 d-flex align-items-center" style="min-height: 200px; background-size: cover; background-position: center top;">
-      <span class="mask bg-gradient-default opacity-8"></span>
+<div class="mb-4">
+    <div class="card" style="background: linear-gradient(135deg, #d4edda 0%, #cce7ff 100%); border: none; border-radius: 30px;">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <h1 class="h2 font-weight-bold text-dark mb-0 ml-2">Hi, {{ $employer->name }}</h1>
+            <img src="{{ asset('assets/images/manager-avatar.png') }}" alt="Manager" class="manager-avatar" style="width: 200px; height: 120px; object-fit: contain;" />
+        </div>
+    </div>
 </div>
-    <div class="container-fluid mt--6">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-xl-12 order-xl-1">
           <div class="card">
@@ -14,7 +19,7 @@
                 <div class="col-8">
                   <h3 class="mb-0">Edit Project</h3>
                 </div>
-                
+
               </div>
             </div>
             <div class="card-body">
@@ -108,7 +113,7 @@
         </div>
       </div>
       <!-- Footer -->
-     
+
     </div>
 @endsection
 

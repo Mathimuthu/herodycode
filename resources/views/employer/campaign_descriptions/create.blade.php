@@ -3,10 +3,22 @@
 @section('title', config('app.name').' | Campaign')
 
 @section('content')
-<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/45.1.0/ckeditor5.css">
+<?php
+    $employerId = Auth::guard('employer')->id();
+    $user = DB::table('employers')->find($employerId);
+?>
+<!-- Header Section -->
+<div class="mb-4">
+    <div class="card" style="background: linear-gradient(135deg, #d4edda 0%, #cce7ff 100%); border: none; border-radius: 30px;">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <h1 class="h2 font-weight-bold text-dark mb-0 ml-2">Hi, {{ $user->name }}</h1>
+            <img src="{{ asset('assets/images/manager-avatar.png') }}" alt="Manager" class="manager-avatar" style="width: 200px; height: 120px; object-fit: contain;" />
+        </div>
+    </div>
+</div>
 <div class="container-fluid py-4">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-10 col-lg-8">
+    <div class="row r">
+        <div class="col-12 col-md-10 col-lg-12">
             <div class="card shadow-sm">
                 <div class="card-header bg-white">
                     <div class="d-flex justify-content-between align-items-center">

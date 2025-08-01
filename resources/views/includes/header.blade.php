@@ -15,23 +15,6 @@
 			<div class="responsivemenu">
 				<ul>
                     <li class="menu-item">
-                    <!--  @if(Auth::check())-->
-                    <!--    <a href="{{route('user.dashboard')}}">-->
-                    <!--      Home-->
-                    <!--    </a>-->
-                    <!--@elseif(Auth::guard('employer')->check())-->
-                    <!--    <a href="{{route('employer.dashboard')}}">-->
-                    <!--      Home-->
-                    <!--    </a>-->
-                    <!--@elseif(Auth::guard('manager')->check())-->
-                    <!--    <a href="{{route('manager.dashboard')}}">-->
-                    <!--      Home-->
-                    <!--    </a>-->
-                    <!--@else-->
-                    <!--    <a href="{{url('/')}}">-->
-                    <!--      Home-->
-                    <!--    </a>-->
-                    <!--@endif-->
                     @if(Auth::check())
                         <a href="{{ route('user.dashboard') }}">Home</a>
                     @elseif(Auth::guard('employer')->check())
@@ -51,30 +34,6 @@
 					<li class="menu-item">
                         <a href="{{route('campaigns')}}" title="">Projects</a>
                     </li>
-                    <!--@if(Auth::check())-->
-                    <!--<li class="menu-item">-->
-                    <!--  <a href="{{route('user.withdraw')}}">-->
-                    <!--    Wallet-->
-                    <!--  </a>-->
-                    <!--</li>-->
-                    <!--<li class="menu-item">-->
-                    <!--  <a href="{{route('user.resume')}}">-->
-                    <!--    Resume-->
-                    <!--  </a>-->
-                    <!--</li>-->
-                    <!--<li class="menu-item">-->
-                    <!--  <a href="{{route('user.logout')}}">-->
-                    <!--    Logout-->
-                    <!--  </a>-->
-                    <!--</li>-->
-                    <!--@endif-->
-                    <!--@if(Auth::guard('employer')->check())-->
-                    <!--<li class="menu-item">-->
-                    <!--  <a href="{{route('employer.logout')}}">-->
-                    <!--    Logout-->
-                    <!--  </a>-->
-                    <!--</li>-->
-                    <!--@endif-->
                     @if(Auth::guard('manager')->check())
                         <li class="menu-item">
                             <a href="{{ route('manager.logout') }}"
@@ -128,23 +87,6 @@
             <nav>
                 <ul>
                     <li class="menu-item">
-                <!--  @if(Auth::check())-->
-                    <!--    <a  href="{{route('user.dashboard')}}">-->
-                    <!--      Home-->
-                    <!--    </a>-->
-                    <!--@elseif(Auth::guard('employer')->check())-->
-                    <!--    <a href="{{route('admin.dashboard')}}">-->
-                    <!--      Admin Dashboard-->
-                    <!--    </a>-->
-                    <!--@elseif(Auth::guard('manager')->check())-->
-                    <!--    <a href="{{route('manager.dashboard')}}">-->
-                    <!--      Home-->
-                    <!--    </a>-->
-                    <!--@else-->
-                    <!--    <a href="{{url('/')}}">-->
-                    <!--      Home-->
-                    <!--    </a>-->
-                <!--  @endif-->
                     @if(Auth::guard('employer')->check())
                             <a href="{{ route('employer.dashboard') }}">Employer Home</a>
 

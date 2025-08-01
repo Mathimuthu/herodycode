@@ -2,54 +2,64 @@
     $managerId = Auth::guard('manager')->id();
     $user = DB::table('managers')->find($managerId);
 ?>
-
-<div class="col-sm-12 col-lg-4 col-xl-4 dn-smd" style="background-color: #001f3f; color: white; min-height: 100vh;">
-    {{-- User Profile --}}
-    <div class="user_profile text-center py-4" style="background-color: transparent;">
-        <div class="media d-block">
-            <i class="fas fa-user-circle" style="font-size: 80px; color: white;"></i>
-        </div>
-        <h5 class="mt-3" style="color: white;">Hi, {{ $user->name }}</h5>
+<div class="sidebar-gradient d-flex flex-column" style="width: 260px;">
+    <!-- Logo -->
+    <div class="logo-container">
+        <a href="{{ url('/') }}" title="">
+            <img class="showsticky" src="{{ asset('assets/main/images/Viti.png') }}" width="60px" alt="Logo" />
+        </a>
     </div>
 
-    {{-- Navigation --}}
-    <div class="dashbord_nav_list">
-        <ul>
-            <li class="{{ Request::is('manager/dashboard') ? 'active' : '' }}">
-                <a href="{{ route('manager.dashboard') }}" style="color: white;">
-                    <span class="flaticon-dashboard"></span> Dashboard
+    <!-- Navigation -->
+    <nav class="sidebar-nav flex-grow-1">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a href="{{ route('manager.dashboard') }}"
+                   class="nav-link {{ Request::is('manager/dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
                 </a>
             </li>
 
-            <li class="{{ Request::is('manager/influencer/tasks') ? 'active' : '' }}">
-                <a href="#" style="color: white;">
-                    <span class="flaticon-paper-plane"></span> Tasks from Employers
+            <li class="nav-item">
+                <a href=""
+                   class="nav-link {{ Request::is('manager/influencer/tasks') ? 'active' : '' }}">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Tasks from Employers</span>
                 </a>
             </li>
 
-            <li class="{{ Request::is('manager/influencers') ? 'active' : '' }}">
-                <a href="#" style="color: white;">
-                    <span class="flaticon-user"></span> All Influencers
+            <li class="nav-item">
+                <a href=""
+                   class="nav-link {{ Request::is('manager/influencers') ? 'active' : '' }}">
+                    <i class="fas fa-user"></i>
+                    <span>All Influencers</span>
                 </a>
             </li>
 
-            <li class="{{ Request::is('manager/influencer/reports') ? 'active' : '' }}">
-                <a href="#" style="color: white;">
-                    <i class="fas fa-chart-line"></i> Campaign Reports
+            <li class="nav-item">
+                <a href=""
+                   class="nav-link {{ Request::is('manager/influencer/reports') ? 'active' : '' }}">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Campaign Reports</span>
                 </a>
             </li>
 
-            <li class="{{ Request::is('manager/influencer/campaigns') ? 'active' : '' }}">
-                <a href="#" style="color: white;">
-                    <i class="fas fa-bullhorn"></i> Manage Campaigns
-                </a>
-            </li>
-
-            <li>
-                <a href="{{ route('manager.logout') }}" style="color: white;">
-                    <span class="flaticon-logout"></span> Logout
+            <li class="nav-item">
+                <a href=""
+                   class="nav-link {{ Request::is('manager/influencer/campaigns') ? 'active' : '' }}">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Manage Campaigns</span>
                 </a>
             </li>
         </ul>
+    </nav>
+
+    <!-- Logout at bottom -->
+    <div class="logout-container">
+        <a href="{{ route('manager.logout') }}" class="nav-link text-danger">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
     </div>
 </div>

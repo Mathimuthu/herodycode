@@ -1,71 +1,140 @@
 @extends('layouts.app')
 @section('title', config('app.name').' | Gigs')
 @section('content')
-<div class="theme-layout" id="scrollup">
-	
-<section class="overlape">
-		<div class="block no-padding">
-			<div data-velocity="-.1" style="background: url(images/resource/mslider1.jpg) repeat scroll 50% 422.28px transparent;" class="parallax scrolly-invisible no-parallax"></div><!-- PARALLAX BACKGROUND IMAGE -->
-			<div class="container fluid">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="inner-header">
-							<h3>Gigs</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+<?php
+    $employerId = Auth::guard('employer')->id();
+    $user = DB::table('employers')->find($employerId);
+?>
 
-	<section>
-		<div class="block">
-			<div class="container">
-				 <div class="row">
-				 	<div class="col-lg-12">
-           @if($campaigns->count()==0)
-            <div class="col-md-12 col-xs-12"><h3>No data found</h3></div>
-           @else
-				 		<div class="job-grid-sec">
-							<div class="row">
-                                @foreach($campaigns as $campaign)
-                                <?php 
-                                    if($campaign->user_id=="Admin"){
-                                        $user = "Admin";
-                                    }
-                                    else{
-                                        $usere = DB::table('employers')->find($campaign->user_id);
-                                        $user = $usere->name;
-                                    }
-                                    
-                                    $cats = explode(", ",$campaign->cats);
-                                    $count = 0;
-                                    foreach($cats as $cat){
-                                        $count++;
-                                    }
-                                ?>
-								<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-									<div class="job-grid border">
-										<div class="job-title-sec">
-											<div class="c-logo"> <img src="@if($user=='Admin') {{asset('assets/admin/img/gig-brand-logo/'.$campaign->logo)}} @else {{asset('assets/employer/profile_images/'.$usere->profile_photo)}} @endif" alt="Company Logo" /> </div>
-											<h3><a href="{{route('campaign.details',$campaign->id)}}">{{$campaign->campaign_title}}</a></h3>
-											<span>{{$campaign->brand}}</span>
-											
-										</div>
-										<span class="">Number of tasks: {{$count-1}}</span><hr>
-										<a href="{{route('campaign.details',$campaign->id)}}"><i class="fas fa-coins"></i>{{$campaign->per_cost}}</a>
-									</div><!-- JOB Grid -->
+<!-- Header Section -->
+<div class="mb-4">
+    <div class="card" style="background: linear-gradient(135deg, #d4edda 0%, #cce7ff 100%); border: none; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div class="card-body d-flex justify-content-between align-items-center py-4">
+            <div>
+                <h1 class="h2 font-weight-bold text-dark mb-1">Hi, {{ $user->name }}</h1>
+                <p class="mb-0 text-muted">Explore available gig opportunities</p>
+            </div>
+            <img src="{{ asset('assets/images/manager-avatar.png') }}" alt="Manager" class="img-fluid" style="width: 120px; height: auto;"/>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-lg-4 px-md-3 px-2">
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header bg-white border-0 py-3">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <h2 class="h4 font-weight-bold text-dark mb-3 mb-md-0">
+                    <i class="fas fa-rocket mr-2 text-primary"></i>Available Gigs
+                </h2>
+                <div class="d-flex">
+                    <div class="input-group input-group-sm mr-2" style="width: 200px;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
+                        </div>
+                        <input type="text" class="form-control border-left-0" placeholder="Search gigs...">
+                    </div>
+                    <button class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-sliders-h"></i> Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body px-0 py-3">
+            @if($campaigns->count()==0)
+            <div class="text-center py-5">
+                <img src="{{ asset('assets/images/no-data.svg') }}" alt="No data" style="height: 150px;" class="mb-4">
+                <h4 class="text-muted">No gigs available</h4>
+                <p class="text-muted mb-4">There are currently no gig campaigns posted</p>
+                <a href="#" class="btn btn-primary px-4">
+                    <i class="fas fa-plus mr-2"></i>Create New Gig
+                </a>
+            </div>
+            @else
+            <div class="row">
+                @foreach($campaigns as $campaign)
+                <?php
+                    if($campaign->user_id=="Admin"){
+                        $user = "Admin";
+                    }
+                    else{
+                        $usere = DB::table('employers')->find($campaign->user_id);
+                        $user = $usere->name;
+                    }
+
+                    $cats = explode(", ",$campaign->cats);
+                    $count = 0;
+                    foreach($cats as $cat){
+                        $count++;
+                    }
+                ?>
+                <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow transition">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start mb-3">
+                                <img src="@if($user=='Admin') {{asset('assets/admin/img/gig-brand-logo/'.$campaign->logo)}} @else {{asset('assets/employer/profile_images/'.$usere->profile_photo)}} @endif"
+                                     alt="Company Logo"
+                                     class="rounded mr-3"
+                                     style="width: 60px; height: 60px; object-fit: contain;">
+                                <div>
+                                    <h5 class="mb-1 font-weight-bold">
+                                        <a href="{{route('campaign.details',$campaign->id)}}" class="text-dark">{{$campaign->campaign_title}}</a>
+                                    </h5>
+                                    <p class="mb-0 text-muted small">{{$campaign->brand}}</p>
+                                    <span class="badge badge-light text-muted small">{{$user}}</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="bg-light rounded p-2 mr-2">
+                                        <i class="fas fa-tasks text-primary"></i>
+                                    </span>
+                                    <div>
+                                        <p class="mb-0 small text-muted">Number of tasks</p>
+                                        <p class="mb-0 font-weight-bold">{{$count-1}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <span class="bg-light rounded p-2 mr-2">
+                                        <i class="fas fa-coins text-warning"></i>
+                                    </span>
+                                    <div>
+                                        <p class="mb-0 small text-muted">Compensation per task</p>
+                                        <p class="mb-0 font-weight-bold">{{$campaign->per_cost}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="{{route('campaign.details',$campaign->id)}}" class="btn btn-block btn-outline-primary mt-3">
+                                View Details <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 @endforeach
-							</div>
             </div>
-            {{$campaigns->links()}}
-            @endif
-				 	</div>
-				 </div>
-			</div>
-		</div>
-	</section>
 
+            <div class="d-flex justify-content-center mt-4">
+                {{$campaigns->links('pagination::bootstrap-4')}}
+            </div>
+            @endif
+        </div>
+    </div>
 </div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .card {
+        border-radius: 12px !important;
+    }
+    .badge-light {
+        background-color: #f8f9fa;
+    }
+</style>
 @endsection

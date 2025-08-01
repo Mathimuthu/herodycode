@@ -66,12 +66,12 @@ use Illuminate\Support\Facades\Route;
 //     Route::post('transactions','DetailController@transactions');
 //     Route::post('allTransactions','DetailController@allTransactions');
 // });
-// Route::namespace('API')->group(function(){
-//     Route::post('projects','ProjectController@list');
-//     Route::post('project/details','ProjectController@details');
-//     Route::post('project/apply','ProjectController@apply');
-//     Route::post('project/proofs','ProjectController@proofs');
-//     Route::post('mobileContent','ProjectController@mobile');
+Route::namespace('API')->group(function(){
+    // Route::post('projects','ProjectController@list');
+    // Route::post('project/details','ProjectController@details');
+    // Route::post('project/apply','ProjectController@apply');
+    // Route::post('project/proofs','ProjectController@proofs');
+    // Route::post('mobileContent','ProjectController@mobile');
 
        Route::get('/gigs',[GigController::class,'list'])->name('gigs');
        Route::post('/gig/details',[GigController::class,'details'])->name('gig/details');
@@ -109,7 +109,7 @@ use Illuminate\Support\Facades\Route;
 //     Route::post('user-rewards', [UserRewardController::class, 'store']);
 //     Route::get('/games', [GameController::class, 'fetchGames']);
 
-// });
+});
 // // Create a new reward record
 // Route::post('test','TrueCallerController@login');
 // Route::get("config", "ConfigurationController@fetchConfiguration");

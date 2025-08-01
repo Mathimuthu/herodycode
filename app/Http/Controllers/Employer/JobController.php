@@ -133,7 +133,6 @@ class JobController extends Controller
         }
 
         // Mail
-       
 
         return redirect()->route('employer.job.confirmation');
     }
@@ -215,7 +214,7 @@ class JobController extends Controller
         $pending->skills = $request->skills;
         $pending->save();
 
-      
+
 
         Session()->flash('success','Details Modified');
         return redirect()->back();
@@ -377,7 +376,7 @@ class JobController extends Controller
                 $user = User::find($uid);
 
                 // Mail
-               
+
 
                 Session()->flash('success','User is shortlisted');
                 return redirect()->back();
@@ -405,7 +404,7 @@ class JobController extends Controller
             else{
                 foreach($jas as $ja){
                     $uid = $ja->uid;
-                    
+
                     if(Shortlisted::where(['jid'=> $id, 'uid' => $uid])->exists()){
                         continue;
                     }
@@ -422,7 +421,7 @@ class JobController extends Controller
                         $user = User::find($uid);
 
                         // Mail
-                        
+
                     }
                 }
                 Session()->flash('success','All the applications are shortlisted');
@@ -470,7 +469,7 @@ class JobController extends Controller
                 $user = User::find($uid);
 
                 // Mail
-               
+
                 Session()->flash('success','User is selected');
                 return redirect()->back();
             }
@@ -510,8 +509,8 @@ class JobController extends Controller
                         $ja->save();
                         Reject::where(['jid'=> $id, 'uid' => $uid])->delete();
                         $user = User::find($uid);
-            
-                       
+
+
                         Session()->flash('success','User is selected');
                         return redirect()->back();
                     }
@@ -563,7 +562,7 @@ class JobController extends Controller
                 $user = User::find($uid);
 
                 // Mail
-                
+
                 Session()->flash('success','User is rejected');
                 return redirect()->back();
             }
@@ -590,7 +589,7 @@ class JobController extends Controller
             else{
                 foreach($jas as $ja){
                     $uid = $ja->uid;
-                    
+
                     if(Reject::where(['jid'=> $id, 'uid' => $uid])->exists()){
                         continue;
                     }
@@ -607,7 +606,7 @@ class JobController extends Controller
                         $user = User::find($uid);
 
                         // Mail
-                       
+
                     }
                 }
                 Session()->flash('success','All the applications are rejected');
@@ -638,7 +637,7 @@ class JobController extends Controller
                 $data = array('user'=>$user->name,'job'=>$job->title,'jid'=>$jid,'uid'=>$uid);
                 Mail::to($user->email)->send(new certificate_mail($data));
 
-                
+
                 $cert = new Certificate;
                 $cert->uid = $uid;
                 $cert->jid = $jid;
@@ -668,6 +667,7 @@ class JobController extends Controller
             $proofs = JobProof::where(['uid' => $uid,'jid' => $jid])->first();
             return view('employer.projects.proofs')->with([
                 'proofs' => $proofs,
+                'em'=> $em,
             ]);
         }
         else{
@@ -733,7 +733,7 @@ class JobController extends Controller
     //         $ja->status = 6;
     //         $ja->save();
     //         // Mail
-            
+
     //         $request->session()->flash('success', "Paid");
     //         return redirect()->back();
     //     }
@@ -742,7 +742,7 @@ class JobController extends Controller
     //         return redirect()->back();
     //     }
     // }
-    
+
 public function payout(Request $request, $jid)
 {
     $this->validate($request, [
@@ -818,7 +818,7 @@ public function payout(Request $request, $jid)
     public function export_excel($id){
         $em = Employer::find(Auth::guard('employer')->id());
         $job = Project::find($id);
-        
+
         if($job==NULL){
             Session()->flash('warning','You cannot perform this action');
             return redirect()->back();
@@ -841,7 +841,7 @@ public function payout(Request $request, $jid)
     public function exportapps($id){
         $em = Employer::find(Auth::guard('employer')->id());
         $job = Project::find($id);
-        
+
         if($job==NULL){
             Session()->flash('warning','You cannot perform this action');
             return redirect()->back();
@@ -864,7 +864,7 @@ public function payout(Request $request, $jid)
     public function exportsls($id){
         $em = Employer::find(Auth::guard('employer')->id());
         $job = Project::find($id);
-        
+
         if($job==NULL){
             Session()->flash('warning','You cannot perform this action');
             return redirect()->back();
@@ -887,7 +887,7 @@ public function payout(Request $request, $jid)
     public function exportsl($id){
         $em = Employer::find(Auth::guard('employer')->id());
         $job = Project::find($id);
-        
+
         if($job==NULL){
             Session()->flash('warning','You cannot perform this action');
             return redirect()->back();

@@ -1,52 +1,69 @@
 @extends('layouts.app')
-@section('title',config('app.name').' | Project Proof')
-
+@section('title', config('app.name') . ' | Project Proof')
 @section('content')
 
-<div class="header bg-primary pb-6">
-      <div class="container-fluid">
-        <div class="header-body">
-          <div class="row align-items-center py-4">
-           
-          </div>
+<!-- Header Section -->
+<div class="mb-4">
+    <div class="card" style="background: linear-gradient(135deg, #d4edda 0%, #cce7ff 100%); border: none; border-radius: 30px;">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <h1 class="h2 font-weight-bold text-dark mb-0 ml-2">Hi, {{ $em->name }}</h1>
+            <img src="{{ asset('assets/images/manager-avatar.png') }}" alt="Manager" class="manager-avatar" style="width: 200px; height: 120px; object-fit: contain;" />
         </div>
-      </div>
     </div>
-    <!-- Page content -->
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-header bg-transparent">
-              <h3 class="mb-0">Project Proof</h3>
-            </div>
-            
-          </div>
-
-          <div class="card">
-              <div class="card-header">
 </div>
-<div class="row">
-    @if($proofs==NULL)
-    <div class="col-md-4 col-xs-12"><h1>No data found</h1></div>
-    @else
-                      <div class="col-md-12 col-xs-12">
-                        <div class="card">
-                            <!-- Card body -->
-                            <div class="card-body">
-                                {!!$proofs->proof!!}
+
+<!-- Main Content -->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">Project Proof</h3>
+                        @if($proofs)
+                            <span class="badge badge-primary">Submitted</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    @if(!$proofs)
+                        <div class="text-center py-5">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-file-alt fa-4x text-muted"></i>
                             </div>
+                            <h3 class="mt-4">No Proof Submitted Yet</h3>
+                            <p class="text-muted">The candidate hasn't submitted any project proof yet.</p>
+                        </div>
+                    @else
+                        <div class="proof-content p-4 border rounded bg-light">
+                            {!! $proofs->proof !!}
+                        </div>
+                    @endif
+                        <div class="mt-4 pt-3 border-top">
+                            <div class="d-flex justify-content-end">
+                                <a href="{{ URL::previous() }}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left mr-2"></i> Back
+                                </a>
                             </div>
-              @endif
-                          </div>
-              </div>
-          </div>
+                        </div>
+                </div>
+            </div>
         </div>
-        </div>
-        </div>
-        
-      </div>
-      <!-- Footer -->
-     
     </div>
+</div>
+
+<style>
+    .proof-content {
+        min-height: 300px;
+    }
+    .proof-content img {
+        max-width: 100%;
+        height: auto;
+    }
+    .empty-state-icon {
+        opacity: 0.5;
+    }
+</style>
+
 @endsection

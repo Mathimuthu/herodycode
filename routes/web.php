@@ -374,6 +374,10 @@ Route::post('getcities','WorldController@cities')->name('world.cities');
             Route::get('project/applications/{jid}/{uid}/answers', 'answers')->name('job.answers');
             Route::get('project/{id}/exportapps', 'exportapps')->name('job.exportapps');
             Route::get('project/{id}/exportsl', 'exportsl')->name('job.exportsl');
+
+            Route::get('pay-u-money-view', 'payUMoneyView')->name('payu');
+            Route::post('pay-u-response/{id}', 'payUResponse')->name('pay.u.response');
+            Route::post('pay-u-cancel', 'payUCancel')->name('pay.u.cancel');
         });
 
 
@@ -440,14 +444,14 @@ Route::post('getcities','WorldController@cities')->name('world.cities');
     Route::delete('/cam_description/{id}', [CampaignDescriptionController::class, 'destroy'])->name('campaign-descriptions.destroy');
     });
 
-    Route::get('influencercampaign',[InfluencerCampaignController::class,'index'])->name('influencercampaign.index');
-    Route::get('influencercampaign/create',[InfluencerCampaignController::class,'creater'])->name('influencercampaign.create');
-    Route::post('influencercampaign/create',[InfluencerCampaignController::class,'create'])->name('influencercampaign.create');
-    Route::get('influencercampaign/edit/{id}', [InfluencerCampaignController::class,'editer'])->name('influencercampaign.editer');
-    Route::post('influencercampaign/edit/{id}',[InfluencerCampaignController::class,'edit'])->name('influencercampaign.edit');
-    Route::post('influencercampaign/delete',[InfluencerCampaignController::class,'delete'])->name('influencercampaign.delete');
-    Route::get('/influencer-campaign/{id}/status-history', [InfluencerCampaignController::class,'statusHistory'])->name('influencercampaign.statushistory');
-    Route::get('/influencer-campaign/{id}/influencer-data/{manager}', [InfluencerCampaignController::class,'showInfluencerData'])->name('influencercampaign.influencerdata');
+    Route::get('influencercampaign',[EmployerInfluencerCampaignController::class,'index'])->name('influencercampaign.index');
+    Route::get('influencercampaign/create',[EmployerInfluencerCampaignController::class,'creater'])->name('influencercampaign.create');
+    Route::post('influencercampaign/create',[EmployerInfluencerCampaignController::class,'create'])->name('influencercampaign.create');
+    Route::get('influencercampaign/edit/{id}', [EmployerInfluencerCampaignController::class,'editer'])->name('influencercampaign.editer');
+    Route::post('influencercampaign/edit/{id}',[EmployerInfluencerCampaignController::class,'edit'])->name('influencercampaign.edit');
+    Route::post('influencercampaign/delete',[EmployerInfluencerCampaignController::class,'delete'])->name('influencercampaign.delete');
+    Route::get('/influencer-campaign/{id}/status-history', [EmployerInfluencerCampaignController::class,'statusHistory'])->name('influencercampaign.statushistory');
+    Route::get('/influencer-campaign/{id}/influencer-data/{manager}', [EmployerInfluencerCampaignController::class,'showInfluencerData'])->name('influencercampaign.influencerdata');
 
 });
 Route::post('/employer/influencer/{id}/update-status', [EmployerInfluencerCampaignController::class,'updateStatus'])
@@ -478,7 +482,7 @@ Route::delete('/sponsorships/delete', [SponsorshipController::class,'bulkDelete'
 Route::delete('/sponsorships/{id}', [SponsorshipController::class,'destroy'])->name('sponsorships.destroy');
 
 // Gigs
-Route::get('gigs', [GigController::class, 'list'])->name('gigs');
+Route::get('gigs', [GigController::class, 'list'])->name('gigss');
 Route::get('gig/details/{id}', [GigController::class, 'details'])->name('campaign.details');
 Route::post('gig/details/apply', [GigController::class, 'apply'])->name('campaign.apply');
 Route::get('gigs/cat/{id}', [GigController::class, 'cats'])->name('campaign.cat');

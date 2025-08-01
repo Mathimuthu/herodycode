@@ -8,141 +8,215 @@
 @extends('layouts.app')
 @section('title', config('app.name').' | Project Details')
 @section('content')
-<div class="theme-layout" id="scrollup">
+<div class="container-fluid px-lg-4 px-md-3 px-2">
+    <div class="card border-0 shadow-sm mb-4">
+        <!-- Project Header -->
+        <div class="card-body p-4">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start mb-4">
+                <div class="d-flex align-items-start mb-3 mb-lg-0 w-100">
+                    <img src="{{asset('assets/admin/img/camp-brand-logo/'.$campaign->logo)}}"
+                         alt="Company Logo"
+                         class="rounded mr-4"
+                         style="width: 80px; height: 80px; object-fit: contain;">
+                    <div class="flex-grow-1">
+                        <h2 class="h3 font-weight-bold text-dark mb-2">{{$campaign->title}}</h2>
+                        <h4 class="h5 text-muted mb-3">{{$campaign->brand}}</h4>
 
-	<section class="overlape">
-		<div class="block no-padding">
-			
-			<div class="container fluid">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="inner-header">
-							<h3>{{$campaign->title}}</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section>
-		<div class="block">
-			<div class="container">
-				<div class="row">
-				 	<div class="col-lg-12 column">
-				 		<div class="job-single-sec style3">
-				 			<div class="job-head-wide">
-				 				<div class="row">
-				 					<div class="col-lg-8">
-				 						<div class="job-single-head3">
-							 				<div class="job-thumb"> <img src="{{asset('assets/admin/img/camp-brand-logo/'.$campaign->logo)}}" alt="Company Logo" /> </div>
-                                            
-							 				<div class="job-single-info3">
-							 					<h3>{{$campaign->brand}}</h3>
-							 					
-							 					<ul class="tags-jobs">
-								 					<li><i class="fas fa-coins"></i> Reward: ₹{{$campaign->reward}}</li>
-								 					<li><i class="fas fa-calendar"></i>Last Date: {{\Carbon\Carbon::parse($campaign->before)->format('d M Y')}}</li>
-								 					<li><i class="fa fa-users"></i> Number of Positions: {{$campaign->ucount}} </li><br><br>
-								 					<li><i class="fa fa-map-marker-alt"></i> City: {{$c}} </li>
-								 					<li><i class="fa fa-coins"></i> {{$campaign->reward}} </li>
-								 				</ul>
-							 				</div>
-							 			</div><!-- Job Head -->
-				 					</div>
-				 					<div class="col-lg-4">
-                                        @if(Auth::check())
-                                            @if(DB::table('campaign_apps')->where(['uid' => Auth::user()->id,'cid' => $campaign->id,'status'=>0])->exists())
-                                                <a class="apply-thisjob" href="{{route('user.campaigns.show')}}"><i class="la la-paper-plane"></i>Already Applied</a>
-                                            @elseif(DB::table('campaign_apps')->where(['uid' => Auth::user()->id,'cid' => $campaign->id,'status'=>1])->exists())
-                                                <form action="{{route('campaign.responser')}}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{$campaign->id}}">
-                                                    <button type="submit" class="apply-thisjob"><i class="la la-paper-plane"></i>Submit Responses</button>
-                                                </form>
-                                            @elseif(DB::table('campaign_apps')->where(['uid' => Auth::user()->id,'cid' => $campaign->id,'status'=>3])->exists())
-                                                <a class="apply-thisjob" href="{{route('user.campaigns.show')}}"><i class="la la-paper-plane"></i>Responses Submitted</a>
-                                            @elseif(DB::table('campaign_apps')->where(['uid' => Auth::user()->id,'cid' => $campaign->id,'status'=>4])->exists())
-                                                <a class="apply-thisjob" href="{{route('user.campaigns.show')}}"><i class="la la-paper-plane"></i>Selected</a>
-                                            @else
-                                                <button type="button" class="apply-thisjob" data-toggle="modal" data-target="#apply">Apply</button>
-                                            @endif
-                                        @else
-                                            <a class="apply-thisjob" href="{{route('login')}}"><i class="fa fa-paper-plane"></i>Please login as a user</a>
-                                        @endif
-                                    </div>
-				 				</div>
-				 			</div>
-                            
-                            <div class="job-wide-devider">
-                                <div class="row">
-                                    <div class="col-lg-8 column">		
-                                        <div class="job-details">
-                                            <h3>About Project</h3>
-                                            <p>{!!$campaign->des!!}</p>
-                                        </div>		
-                                        <div class="job-details">
-                                            <h3>Benefits</h3>
-                                            <p>{!!$campaign->benefits!!}</p>
-                                        </div>
-                                        <div class="job-details">
-                                            <h3>Requirements</h3>
-                                            <p>{!!$campaign->requirements!!}</p>
-                                        </div>
-                                        <div class="job-details">
-                                            <h3>Do's & Don'ts</h3>
-                                            <p>{!!$campaign->dondont!!}</p>
-                                        </div>
-                                        <div class="job-details">
-                                            <h3>Instructions</h3>
-                                            <p>{!!$campaign->instructions!!}</p>
-                                        </div>
-                                        <div class="job-details">
-                                            <h3>Methods</h3>
-                                            <p>{!!$campaign->methods!!}</p>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="d-flex flex-wrap">
+                            <div class="mr-4 mb-2">
+                                <span class="d-block text-muted small">Reward</span>
+                                <span class="font-weight-bold text-success">₹{{$campaign->reward}}</span>
                             </div>
+                            <div class="mr-4 mb-2">
+                                <span class="d-block text-muted small">Last Date</span>
+                                <span class="font-weight-bold">{{\Carbon\Carbon::parse($campaign->before)->format('d M Y')}}</span>
+                            </div>
+                            <div class="mr-4 mb-2">
+                                <span class="d-block text-muted small">Positions</span>
+                                <span class="font-weight-bold">{{$campaign->ucount}}</span>
+                            </div>
+                            <div class="mb-2">
+                                <span class="d-block text-muted small">Location</span>
+                                <span class="font-weight-bold">{{$c}}</span>
+                            </div>
+                        </div>
                     </div>
-				 	</div>
-				</div>
-			</div>
-		</div>
-	</section>
-</div>
+                </div>
 
-<!-- Modals -->
-
-<!-- FB proof -->
-<div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="Apply" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Apply for the project</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <h3>Important Terms</h3>
-          <p>{!!$campaign->imp_terms!!}</p>
-          <h3 class="mt-2">Terms</h3>
-          <p>{!!$campaign->terms!!}</p>
-      <form method="post" action="{{route('mission.apply')}}">
-          @csrf
-          <input type="hidden" name="id" value="{{$campaign->id}}">
-            <div class="pf-field mt-3">
-                <div class="custom-control custom-checkbox mb-3">
-                    <input type="checkbox" id="terms" name="terms" value="Agree" class="custom-control-input"> <label class="custom-control-label" for="terms">I agree all the terms.</label>
+                <div class="w-100 w-lg-auto">
+                    @if(Auth::check())
+                        @if(DB::table('campaign_apps')->where(['uid' => Auth::user()->id,'cid' => $campaign->id,'status'=>0])->exists())
+                            <button class="btn btn-success btn-block px-4" disabled>
+                                <i class="fas fa-check-circle mr-2"></i>Applied
+                            </button>
+                        @elseif(DB::table('campaign_apps')->where(['uid' => Auth::user()->id,'cid' => $campaign->id,'status'=>1])->exists())
+                            <form action="{{route('campaign.responser')}}" method="post" class="w-100">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$campaign->id}}">
+                                <button type="submit" class="btn btn-primary btn-block px-4">
+                                    <i class="fas fa-paper-plane mr-2"></i>Submit Responses
+                                </button>
+                            </form>
+                        @elseif(DB::table('campaign_apps')->where(['uid' => Auth::user()->id,'cid' => $campaign->id,'status'=>3])->exists())
+                            <button class="btn btn-info btn-block px-4" disabled>
+                                <i class="fas fa-check-double mr-2"></i>Responses Submitted
+                            </button>
+                        @elseif(DB::table('campaign_apps')->where(['uid' => Auth::user()->id,'cid' => $campaign->id,'status'=>4])->exists())
+                            <button class="btn btn-success btn-block px-4" disabled>
+                                <i class="fas fa-trophy mr-2"></i>Selected
+                            </button>
+                        @else
+                            <button type="button" class="btn btn-primary btn-block px-4" data-toggle="modal" data-target="#apply">
+                                <i class="fas fa-paper-plane mr-2"></i>Apply Now
+                            </button>
+                        @endif
+                    @else
+                        <a href="{{route('employer.login')}}" class="btn btn-outline-primary btn-block px-4">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login to Apply
+                        </a>
+                    @endif
                 </div>
             </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Apply</button>
-      </div>
-      </form>
+
+            <hr class="my-4">
+
+            <!-- Project Details Sections -->
+            <div class="project-section mb-5">
+                <div class="section-header d-flex align-items-center mb-3">
+                    <i class="fas fa-info-circle text-primary mr-2"></i>
+                    <h4 class="font-weight-bold mb-0">About Project</h4>
+                </div>
+                <div class="section-content bg-light rounded p-4">
+                    {!!$campaign->des!!}
+                </div>
+            </div>
+
+            <div class="project-section mb-5">
+                <div class="section-header d-flex align-items-center mb-3">
+                    <i class="fas fa-gift text-primary mr-2"></i>
+                    <h4 class="font-weight-bold mb-0">Benefits</h4>
+                </div>
+                <div class="section-content bg-light rounded p-4">
+                    {!!$campaign->benefits!!}
+                </div>
+            </div>
+
+            <div class="project-section mb-5">
+                <div class="section-header d-flex align-items-center mb-3">
+                    <i class="fas fa-clipboard-check text-primary mr-2"></i>
+                    <h4 class="font-weight-bold mb-0">Requirements</h4>
+                </div>
+                <div class="section-content bg-light rounded p-4">
+                    {!!$campaign->requirements!!}
+                </div>
+            </div>
+
+            <div class="project-section mb-5">
+                <div class="section-header d-flex align-items-center mb-3">
+                    <i class="fas fa-exclamation-triangle text-primary mr-2"></i>
+                    <h4 class="font-weight-bold mb-0">Do's & Don'ts</h4>
+                </div>
+                <div class="section-content bg-light rounded p-4">
+                    {!!$campaign->dondont!!}
+                </div>
+            </div>
+
+            <div class="project-section mb-5">
+                <div class="section-header d-flex align-items-center mb-3">
+                    <i class="fas fa-list-ol text-primary mr-2"></i>
+                    <h4 class="font-weight-bold mb-0">Instructions</h4>
+                </div>
+                <div class="section-content bg-light rounded p-4">
+                    {!!$campaign->instructions!!}
+                </div>
+            </div>
+
+            <div class="project-section mb-5">
+                <div class="section-header d-flex align-items-center mb-3">
+                    <i class="fas fa-tasks text-primary mr-2"></i>
+                    <h4 class="font-weight-bold mb-0">Methods</h4>
+                </div>
+                <div class="section-content bg-light rounded p-4">
+                    {!!$campaign->methods!!}
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
+<!-- Apply Modal -->
+<div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="applyModalLabel">Apply for Project</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                    <h5 class="font-weight-bold text-primary mb-3">
+                        <i class="fas fa-exclamation-circle mr-2"></i> Important Terms
+                    </h5>
+                    <div class="bg-light p-3 rounded">
+                        {!!$campaign->imp_terms!!}
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="font-weight-bold text-primary mb-3">
+                        <i class="fas fa-file-contract mr-2"></i> Terms & Conditions
+                    </h5>
+                    <div class="bg-light p-3 rounded">
+                        {!!$campaign->terms!!}
+                    </div>
+                </div>
+
+                <form method="post" action="{{route('mission.apply')}}">
+                    @csrf
+                    <input type="hidden" name="id" value="{{$campaign->id}}">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="terms" name="terms" value="Agree" required>
+                            <label class="custom-control-label font-weight-bold" for="terms">
+                                I agree to all the terms and conditions
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer border-top-0">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-paper-plane mr-2"></i> Submit Application
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .project-section {
+        border-left: 3px solid #4e73df;
+        padding-left: 15px;
+    }
+    .section-header {
+        padding-bottom: 5px;
+    }
+    .section-content {
+        border: 1px solid #e3e6f0;
+    }
+    .modal-content {
+        border-radius: 12px;
+    }
+    .btn-block {
+        white-space: nowrap;
+    }
+    .bg-light {
+        background-color: #f8f9fa!important;
+    }
+</style>
+
 @endsection
