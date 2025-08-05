@@ -1,8 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-4">
-    <div class="row justify-content-center">
+<?php
+    $employerId = Auth::guard('employer')->id();
+    $user = DB::table('employers')->find($employerId);
+?>
+<!-- Header Section -->
+<div class="mb-4">
+    <div class="card" style="background: linear-gradient(135deg, #d4edda 0%, #cce7ff 100%); border: none; border-radius: 30px;">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <h1 class="h2 font-weight-bold text-dark mb-0 ml-2">Hi, {{ $user->name }}</h1>
+            <img src="{{ asset('assets/images/manager-avatar.png') }}" alt="Manager" class="manager-avatar" style="width: 200px; height: 120px; object-fit: contain;" />
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
         <div class="col-md-12">
             <!-- Campaign Header -->
             <div class="card shadow-sm border-0 mb-4">
@@ -72,8 +85,8 @@
                                 <form action="{{ route('employer.add-balance') }}" method="POST" class="row mb-3 g-2">
                                     @csrf
                                     <input type="hidden" name="user_id" value="{{ $submission['userId'] ?? '' }}">
-                                    <input type="hidden" name="task_id" value="{{ $campaign->id }}"> 
-                                    
+                                    <input type="hidden" name="task_id" value="{{ $campaign->id }}">
+
                                     <div class="col-md-3 col-sm-6">
                                         <input type="number" name="amount" class="form-control form-control-sm" placeholder="Enter amount" required>
                                     </div>

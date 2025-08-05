@@ -432,9 +432,9 @@ Route::post('getcities','WorldController@cities')->name('world.cities');
         Route::get('/questions/{id}/edit', 'edit')->name('questions.edit');
         Route::put('/questions/{id}', 'update')->name('questions.update');
         Route::delete('/questions/{id}', 'destroy')->name('questions.destroy');
-        Route::get('/employer/questions/answers/{campaign_id}', [App\Http\Controllers\Employer\QuestionController::class, 'viewAnswers'])
-    ->name('questions.answers');
-
+        Route::get('/questions/answers/{campaign_id}','viewAnswers')->name('questions.answers');
+        Route::post('/answer/status-update', 'updateStatus')->name('answer.update-status');
+  });
     //campain
     Route::get('/cam_description', [CampaignDescriptionController::class, 'index'])->name('campaign-descriptions.index');
     Route::get('/cam_description/create', [CampaignDescriptionController::class, 'create'])->name('campaign-descriptions.create');
@@ -442,7 +442,7 @@ Route::post('getcities','WorldController@cities')->name('world.cities');
     Route::get('/cam_description/{id}/edit', [CampaignDescriptionController::class, 'edit'])->name('campaign-descriptions.edit');
     Route::put('/cam_description/{id}', [CampaignDescriptionController::class, 'update'])->name('campaign-descriptions.update');
     Route::delete('/cam_description/{id}', [CampaignDescriptionController::class, 'destroy'])->name('campaign-descriptions.destroy');
-    });
+
 
     Route::get('influencercampaign',[EmployerInfluencerCampaignController::class,'index'])->name('influencercampaign.index');
     Route::get('influencercampaign/create',[EmployerInfluencerCampaignController::class,'creater'])->name('influencercampaign.create');
